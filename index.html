@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinico-Genomic Platform Competitive Matrix — Helix</title>
+<style>
+  :root {
+    --navy:    #1A2A4A;
+    --blue:    #1A478A;
+    --acc:     #2B65B5;
+    --green:   #3DBF84;
+    --amber:   #E8A020;
+    --red:     #D94F4F;
+    --bg:      #F4F6FA;
+    --card:    #FFFFFF;
+    --border:  #D8E0EE;
+    --text:    #1A2A4A;
+    --muted:   #667;
+    --row-alt: #F8FAFD;
+    --shadow:  0 2px 12px rgba(26,42,74,0.09);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
+
+  /* ── HEADER ─────────────────────────────────────────────── */
+  .header {
+    background: var(--navy);
+    padding: 24px 32px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .header-left { display: flex; align-items: center; gap: 18px; }
+  .logo-badge {
+    background: var(--acc); color: #fff; font-size: 11px; font-weight: 800;
+    letter-spacing: 1.5px; padding: 5px 10px; border-radius: 6px; text-transform: uppercase;
+  }
+  .header-title { color: #fff; font-size: 20px; font-weight: 700; letter-spacing: -0.2px; }
+  .header-sub { color: rgba(255,255,255,0.55); font-size: 12px; margin-top: 2px; }
+  .header-right { text-align: right; }
+  .header-date { color: rgba(255,255,255,0.45); font-size: 11px; }
+
+  /* ── STAT CARDS ─────────────────────────────────────────── */
+  .stats-row { display: flex; gap: 14px; padding: 20px 28px 0; flex-wrap: wrap; }
+  .stat-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 22px; flex: 1 1 160px; min-width: 150px;
+    box-shadow: var(--shadow);
+  }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--blue); line-height: 1; }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .stat-card.green .stat-num { color: #1A8050; }
+  .stat-card.amber .stat-num { color: #A06010; }
+
+  /* ── FILTERS ─────────────────────────────────────────────── */
+  .filter-bar {
+    background: var(--card); border-bottom: 1px solid var(--border);
+    padding: 14px 28px; display: flex; align-items: center; gap: 10px;
+    flex-wrap: wrap; margin-top: 18px;
+  }
+  .filter-bar label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .filter-bar input, .filter-bar select {
+    font-size: 12px; padding: 6px 10px; border: 1px solid var(--border);
+    border-radius: 7px; background: var(--bg); color: var(--text);
+    outline: none; height: 32px;
+  }
+  .filter-bar input { width: 210px; }
+  .filter-bar select { cursor: pointer; }
+  .filter-bar input:focus, .filter-bar select:focus { border-color: var(--acc); }
+  #count-badge {
+    margin-left: auto; font-size: 11.5px; color: var(--muted); white-space: nowrap;
+    background: var(--bg); border: 1px solid var(--border); border-radius: 20px;
+    padding: 4px 12px;
+  }
+
+  /* ── MAIN TABLE ──────────────────────────────────────────── */
+  .table-wrap { padding: 0 28px 28px; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); margin-top: 18px; }
+  thead tr { background: var(--navy); }
+  thead th {
+    color: rgba(255,255,255,0.85); font-size: 10.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.6px; padding: 11px 12px;
+    text-align: left; white-space: nowrap; cursor: pointer; user-select: none;
+    border-right: 1px solid rgba(255,255,255,0.07);
+  }
+  thead th:last-child { border-right: none; }
+  thead th:hover { color: #fff; background: rgba(255,255,255,0.07); }
+  thead th.sorted { color: #7EB8F7; }
+  .sort-icon { font-size: 9px; opacity: 0.6; margin-left: 3px; }
+
+  tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+  tbody tr:nth-child(even) { background: var(--row-alt); }
+  tbody tr:hover { background: #EDF3FF; }
+  tbody tr.hidden { display: none; }
+  tbody td { padding: 10px 12px; vertical-align: top; line-height: 1.4; }
+
+  /* ── CELL BADGES ─────────────────────────────────────────── */
+  .type-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 10px; font-weight: 700; white-space: nowrap;
+  }
+  .type-public   { background: rgba(43,101,181,0.10); color: #1A478A; border: 1px solid rgba(43,101,181,0.20); }
+  .type-commercial { background: rgba(61,191,132,0.12); color: #1A6B40; border: 1px solid rgba(61,191,132,0.25); }
+  .type-consortium { background: rgba(155,100,210,0.10); color: #6030A0; border: 1px solid rgba(155,100,210,0.22); }
+  .type-federal  { background: rgba(232,160,32,0.10); color: #805010; border: 1px solid rgba(232,160,32,0.25); }
+  .type-network  { background: rgba(217,79,79,0.09); color: #8B2020; border: 1px solid rgba(217,79,79,0.20); }
+  .type-health   { background: rgba(100,160,90,0.10); color: #306020; border: 1px solid rgba(100,160,90,0.25); }
+  .type-cloud    { background: rgba(90,160,200,0.10); color: #20608A; border: 1px solid rgba(90,160,200,0.25); }
+
+  .geo-chip {
+    display: inline-block; padding: 2px 7px; border-radius: 4px;
+    font-size: 10px; font-weight: 600; white-space: nowrap;
+  }
+  .geo-wgs   { background: rgba(43,101,181,0.12); color: #1A478A; }
+  .geo-wes   { background: rgba(61,191,132,0.12); color: #1A6B40; }
+  .geo-exomeplus { background: rgba(43,101,181,0.20); color: #12337A; font-weight: 800; }
+  .geo-array { background: rgba(232,160,32,0.12); color: #805010; }
+  .geo-panel { background: rgba(155,100,210,0.12); color: #6030A0; }
+  .geo-limited { background: rgba(150,150,165,0.10); color: #666; }
+  .geo-none  { background: #F0F2F5; color: #999; }
+
+  .fit-high   { color: #1A6B40; font-weight: 700; }
+  .fit-medium { color: #805010; font-weight: 700; }
+  .fit-low    { color: #666;    font-weight: 600; }
+
+  .yn-yes     { color: #1A6B40; font-weight: 700; }
+  .yn-limited { color: #805010; font-weight: 600; }
+  .yn-no      { color: #999;    font-weight: 500; }
+
+  .std-badge {
+    display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 700;
+  }
+  .std-omop  { background: rgba(43,101,181,0.12); color: #1A478A; }
+  .std-fhir  { background: rgba(61,191,132,0.12); color: #1A6B40; }
+  .std-custom { background: #F0F2F5; color: #666; }
+  .std-multi { background: rgba(155,100,210,0.10); color: #6030A0; }
+
+  .access-badge {
+    display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600;
+  }
+  .access-commercial { background: rgba(217,79,79,0.08); color: #8B2020; border: 1px solid rgba(217,79,79,0.18); }
+  .access-application { background: rgba(43,101,181,0.08); color: #1A478A; border: 1px solid rgba(43,101,181,0.18); }
+  .access-open { background: rgba(61,191,132,0.08); color: #1A6B40; border: 1px solid rgba(61,191,132,0.18); }
+  .access-federated { background: rgba(155,100,210,0.08); color: #6030A0; border: 1px solid rgba(155,100,210,0.18); }
+  .access-partnership { background: rgba(232,160,32,0.10); color: #805010; border: 1px solid rgba(232,160,32,0.22); }
+
+  .platform-name { font-weight: 700; font-size: 13px; color: var(--blue); white-space: nowrap; }
+  .platform-org  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .platform-star { color: #E8A020; font-size: 11px; margin-left: 4px; }
+
+  .strength-text { font-size: 11.5px; color: #333; max-width: 220px; }
+  .gap-text { font-size: 11.5px; color: #888; max-width: 200px; }
+
+  .ref-link { color: var(--acc); font-size: 11px; text-decoration: none; white-space: nowrap; }
+  .ref-link:hover { text-decoration: underline; }
+
+  /* ── HELIX HIGHLIGHT ─────────────────────────────────────── */
+  tr.helix-row { background: linear-gradient(90deg, rgba(43,101,181,0.04) 0%, transparent 100%) !important; }
+  tr.helix-row:hover { background: linear-gradient(90deg, rgba(43,101,181,0.10) 0%, #EDF3FF 100%) !important; }
+  tr.helix-row .platform-name { color: #12337A; }
+
+  /* ── FEATURE HEATMAP ─────────────────────────────────────── */
+  .section-header {
+    padding: 24px 28px 8px;
+    font-size: 15px; font-weight: 700; color: var(--navy); letter-spacing: -0.2px;
+  }
+  .section-sub { padding: 0 28px 14px; font-size: 12px; color: var(--muted); }
+
+  .heatmap-wrap { padding: 0 28px 32px; overflow-x: auto; }
+  .heatmap { border-collapse: collapse; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+  .heatmap th, .heatmap td { border: 1px solid var(--border); }
+  .heatmap thead tr { background: var(--navy); }
+  .heatmap thead th {
+    color: rgba(255,255,255,0.82); font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px; padding: 9px 10px;
+    text-align: center; white-space: nowrap;
+  }
+  .heatmap thead th.col-platform { text-align: left; min-width: 190px; padding-left: 14px; }
+  .heatmap tbody tr { background: var(--card); }
+  .heatmap tbody tr:nth-child(even) { background: var(--row-alt); }
+  .heatmap tbody tr.helix-hm { background: rgba(43,101,181,0.05) !important; }
+  .heatmap tbody td { text-align: center; padding: 8px 10px; font-size: 12px; }
+  .heatmap tbody td.td-platform { text-align: left; padding-left: 14px; font-weight: 600; font-size: 12px; color: var(--navy); white-space: nowrap; }
+  .hm-yes  { color: #1A6B40; font-size: 15px; }
+  .hm-part { color: #A06010; font-size: 13px; }
+  .hm-no   { color: #CCC;    font-size: 13px; }
+
+  /* ── INSIGHTS SECTION ────────────────────────────────────── */
+  .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; padding: 0 28px 32px; }
+  .insight-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .insight-card h3 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .insight-card ul { list-style: none; padding: 0; }
+  .insight-card li { font-size: 12px; color: #444; padding: 4px 0; padding-left: 16px; position: relative; }
+  .insight-card li::before { content: "→"; position: absolute; left: 0; color: var(--acc); font-weight: 700; }
+  .insight-card.highlight { border-color: var(--acc); border-left: 4px solid var(--acc); }
+
+  /* ── FOOTER ─────────────────────────────────────────────── */
+  .footer { text-align: center; padding: 20px 28px; color: #999; font-size: 10.5px; letter-spacing: 0.8px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────── -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo-badge">Helix</div>
+    <div>
+      <div class="header-title">Clinico-Genomic Platform Competitive Matrix</div>
+      <div class="header-sub">Cohort Builders · Biobanks · Real-World Data Networks · Cloud Platforms</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-date">Updated March 2026 · Competitive Intelligence</div>
+  </div>
+</div>
+
+<!-- ── STAT CARDS ───────────────────────────────────────────── -->
+<div class="stats-row" id="stats-row"></div>
+
+<!-- ── FILTER BAR ───────────────────────────────────────────── -->
+<div class="filter-bar">
+  <label>Search</label>
+  <input type="text" id="f-search" placeholder="Platform, org, keyword…">
+  <label>Type</label>
+  <select id="f-type">
+    <option value="">All Types</option>
+    <option>Public Biobank</option>
+    <option>Commercial</option>
+    <option>Public-Private Consortium</option>
+    <option>Federal Biobank</option>
+    <option>Real-World Data Network</option>
+    <option>Health System Biobank</option>
+    <option>Cloud Research Platform</option>
+  </select>
+  <label>Genomics</label>
+  <select id="f-genomics">
+    <option value="">All</option>
+    <option value="WGS">WGS</option>
+    <option value="WES">WES / Exome+</option>
+    <option value="Array">Array / GWAS</option>
+    <option value="None">No Genomics</option>
+  </select>
+  <label>Pharma Fit</label>
+  <select id="f-pharma">
+    <option value="">All</option>
+    <option>High</option>
+    <option>Medium</option>
+    <option>Low</option>
+  </select>
+  <label>Recontact</label>
+  <select id="f-recontact">
+    <option value="">All</option>
+    <option>Yes</option>
+    <option>Limited</option>
+    <option>No</option>
+  </select>
+  <span id="count-badge">— platforms</span>
+</div>
+
+<!-- ── MAIN TABLE ───────────────────────────────────────────── -->
+<div class="table-wrap">
+  <table id="main-table">
+    <thead>
+      <tr>
+        <th onclick="sortTable(0)" data-col="0">Platform / Org <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(2)" data-col="2">Type <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(3)" data-col="3">Cohort Scale <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(4)" data-col="4">Genomic Depth <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(5)" data-col="5">Clinical Data <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(6)" data-col="6">EHR Depth <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(7)" data-col="7">Cohort Builder <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(8)" data-col="8">Recontact <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(9)" data-col="9">Data Standard <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(10)" data-col="10">Access Model <span class="sort-icon">↕</span></th>
+        <th onclick="sortTable(11)" data-col="11">Pharma Fit <span class="sort-icon">↕</span></th>
+        <th>Key Strength</th>
+        <th>Gaps / Missing</th>
+        <th>Resource</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<!-- ── FEATURE HEATMAP ──────────────────────────────────────── -->
+<div class="section-header">Feature Capability Heatmap</div>
+<div class="section-sub">✓ Full capability &nbsp;·&nbsp; ~ Partial / Limited &nbsp;·&nbsp; – Not available</div>
+<div class="heatmap-wrap">
+  <table class="heatmap" id="heatmap-table">
+    <thead>
+      <tr>
+        <th class="col-platform">Platform</th>
+        <th>WGS</th>
+        <th>WES / Exome+</th>
+        <th>EHR Linkage</th>
+        <th>Claims Data</th>
+        <th>Longitudinal &gt;10yr</th>
+        <th>Cohort Builder UI</th>
+        <th>Recontact</th>
+        <th>OMOP / FHIR</th>
+        <th>Pharma Access</th>
+        <th>Rare Disease</th>
+        <th>Cardiometabolic</th>
+        <th>Oncology</th>
+        <th>GLP-1 / Obesity</th>
+        <th>Autoimmune</th>
+        <th>Diverse Ancestry</th>
+      </tr>
+    </thead>
+    <tbody id="heatmap-tbody"></tbody>
+  </table>
+</div>
+
+<!-- ── KEY INSIGHTS ─────────────────────────────────────────── -->
+<div class="section-header">Key Competitive Insights</div>
+<div class="insights-grid">
+  <div class="insight-card highlight">
+    <h3>GenoSphere™ Competitive Advantages</h3>
+    <ul>
+      <li>Only platform combining Exome+ WES with linked EHR + claims + recontact at 400K+ scale</li>
+      <li>World's largest specialized GLP-1 clinicogenomic cohort (55K+)</li>
+      <li>OMOP-harmonized — interoperable with existing pharma data infrastructure</li>
+      <li>100% consented recontact enables clinical trial recruitment, not just observational research</li>
+      <li>Purpose-built cohorts (cardiometabolic, GLP-1, autoimmune, MASH) vs. general population</li>
+      <li>Commercial partnership model with rapid feasibility turnaround via Explorer™</li>
+    </ul>
+  </div>
+  <div class="insight-card">
+    <h3>Where Competitors Lead</h3>
+    <ul>
+      <li><strong>UK Biobank:</strong> Gold-standard WGS reference (500K); deep phenotyping; academia preferred</li>
+      <li><strong>All of Us:</strong> Most diverse US cohort; wearable data; free researcher access</li>
+      <li><strong>TriNetX:</strong> Largest EHR scale (250M+); site network for trial recruitment feasibility</li>
+      <li><strong>Tempus / Flatiron:</strong> Dominant in oncology multimodal + RWE regulatory submissions</li>
+      <li><strong>deCODE Genetics:</strong> Most complete population-level WGS dataset (60% Iceland)</li>
+      <li><strong>Epic Cosmos:</strong> Deepest structured EHR network; near-real-time data; FHIR native</li>
+    </ul>
+  </div>
+  <div class="insight-card">
+    <h3>Universal Gaps in the Market</h3>
+    <ul>
+      <li>No platform offers WGS + linked EHR/claims + recontact in a single commercial offering</li>
+      <li>Public biobanks (UK BB, All of Us) restrict commercial recontact and licensing</li>
+      <li>Oncology platforms (Tempus, Flatiron) have no rare/cardiometabolic depth</li>
+      <li>EHR networks (TriNetX, Epic Cosmos) lack raw genomic data entirely</li>
+      <li>Population biobanks are largely single-ancestry or single-country</li>
+      <li>Rare variant discovery requires WES/WGS — array-only platforms miss ~95% of variants</li>
+    </ul>
+  </div>
+  <div class="insight-card">
+    <h3>Pharma Use Case Fit</h3>
+    <ul>
+      <li><strong>Target discovery:</strong> deCODE, UK Biobank, FinnGen (rare variant → gene)</li>
+      <li><strong>Trial enrichment / patient ID:</strong> GenoSphere, DiscovEHR, All of Us (recontact)</li>
+      <li><strong>Feasibility / site selection:</strong> TriNetX, Epic Cosmos (scale + site network)</li>
+      <li><strong>Oncology RWE / regulatory:</strong> Flatiron, Tempus (FDA-recognized)</li>
+      <li><strong>Precision effectiveness (cardiometabolic):</strong> GenoSphere uniquely positioned</li>
+      <li><strong>GLP-1 / obesity outcomes:</strong> GenoSphere (only purpose-built genomic cohort)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
+<div class="footer">HELIX GENOSPHERE™ · COMPETITIVE INTELLIGENCE · MARCH 2026</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+// [0] Platform  [1] Org  [2] Type  [3] Cohort  [4] Genomics  [5] Clinical
+// [6] EHR Depth  [7] Builder  [8] Recontact  [9] Standard  [10] Access
+// [11] Pharma Fit  [12] Strength  [13] Gap  [14] URL
+const DATA = [
+  [
+    "Helix GenoSphere™ Explorer", "Helix", "Commercial",
+    "400K+ WES; 12.9M EHR network", "Exome+", "EHR + Claims",
+    "13+ yr avg longitudinal", "Yes", "Yes", "OMOP",
+    "Commercial", "High",
+    "Only platform combining Exome+ WES with linked EHR+claims+recontact at scale; purpose-built therapeutic cohorts; OMOP-harmonized; world's largest GLP-1 clinicogenomic cohort",
+    "North America only; WGS not yet offered; limited oncology depth",
+    "https://www.helix.com/what-we-do/helix-genosphere"
+  ],
+  [
+    "UK Biobank + UKB-RAP", "UK Biobank (MRC)", "Public Biobank",
+    "500K WGS+WES; 450K WGS released", "WGS + WES + Array", "NHS EHR + GP Records",
+    "20+ yr NHS linkages", "Yes", "Limited", "Custom",
+    "Application", "Medium-High",
+    "Gold-standard genomic reference dataset; largest released population WGS; 20+ yr NHS linkages; deep imaging + biomarker phenotyping",
+    "UK ancestry bias; no commercial recontact; slow phenotype refresh; no OMOP",
+    "https://www.ukbiobank.ac.uk"
+  ],
+  [
+    "All of Us Researcher Workbench", "NIH (National Institutes of Health)", "Public Biobank",
+    "800K+ enrolled; 250K+ WGS", "WGS + Array", "EHR + Surveys + Wearables",
+    "Variable (partner EHR)", "Yes", "Yes", "OMOP",
+    "Application (free)", "Medium",
+    "Most racially/ethnically diverse US cohort; wearable data; OMOP standard; free access; recontact opt-in",
+    "No direct commercial licensing; recontact complex via IRB; no rare disease depth; limited cardiometabolic focus",
+    "https://allofus.nih.gov"
+  ],
+  [
+    "Genomics England (GEL) Research Environment", "Genomics England (UK Dept of Health)", "Public Biobank",
+    "170K+ WGS (rare disease + cancer)", "WGS", "NHS EHR linkages",
+    "NHS linked (variable depth)", "Yes", "Limited", "Custom",
+    "Application (federated)", "Medium",
+    "Deep rare disease WGS cohort; cancer whole-genome; strong NHS linkage; used in UK clinical pathways",
+    "UK only; federated compute only (no data export); limited cardiometabolic/metabolic depth",
+    "https://www.genomicsengland.co.uk"
+  ],
+  [
+    "FinnGen", "FIMM / Broad + 10 pharma partners", "Public-Private Consortium",
+    "500K+ Finnish samples (WGS/imputed)", "WGS + Array (imputed)", "Finnish National Registries",
+    "National registry (decades)", "Limited", "No", "Custom",
+    "Consortium (public summary stats)", "Medium",
+    "Finnish founder population enriched for rare loss-of-function variants; national registry linkage; GWAS summary stats freely available",
+    "Finnish ancestry only; no recontact; no cohort builder UI; limited diverse ancestry utility",
+    "https://www.finngen.fi"
+  ],
+  [
+    "Regeneron / Geisinger DiscovEHR", "Regeneron Genetics Center + Geisinger", "Health System Biobank",
+    "250K+ WES (MyCode community)", "WES", "Geisinger EHR",
+    "20+ yr deep EHR", "Limited", "Yes", "Custom",
+    "Partnership (Regeneron)", "Medium",
+    "Pioneered return-of-results; deep longitudinal Geisinger EHR; established consent/recontact pipeline; rural PA population diversity",
+    "Single health system (PA geography); limited external access; Regeneron-controlled; no OMOP",
+    "https://www.regeneron.com/science/genetics-center"
+  ],
+  [
+    "Million Veteran Program (MVP)", "US Department of Veterans Affairs", "Federal Biobank",
+    "1M+ enrolled; 700K+ genotyped", "Array + WGS (expanding)", "VA EHR (VistA/CDW)",
+    "20+ yr VA records", "Limited", "Limited", "Custom",
+    "VA researcher access only", "Low",
+    "Largest US biobank by enrollment; deep longitudinal VA health records; strong minority/diverse veteran representation",
+    "Veteran population bias (older, predominantly male); limited commercial access; predominantly array-based genomics",
+    "https://www.mvp.va.gov"
+  ],
+  [
+    "TriNetX", "TriNetX (commercial)", "Real-World Data Network",
+    "250M+ patient records; 200+ health orgs", "None", "EHR (structured)",
+    "Variable by site", "Yes", "No", "OMOP (partial)",
+    "Commercial", "High",
+    "Scale for feasibility and site identification; 200+ site network for trial recruitment; RWE for regulatory submissions; rapid cohort queries",
+    "No genomics; no recontact; de-identified only; phenotype quality varies by site",
+    "https://trinetx.com"
+  ],
+  [
+    "OHDSI / ATLAS", "OHDSI (academic consortium)", "Real-World Data Network",
+    "Federated (billions of patient-years)", "None", "EHR, Claims, Registries",
+    "Variable by site", "Yes", "No", "OMOP (canonical)",
+    "Open-source (federated)", "Medium",
+    "Open-source gold standard for observational research; largest OMOP network; federated privacy-preserving analysis; active global community",
+    "No genomics; federated only (no data pooling); no biospecimen; network study coordination complexity",
+    "https://ohdsi.org/atlas"
+  ],
+  [
+    "Tempus AI (Lens)", "Tempus AI", "Commercial",
+    "7M+ records; 1M+ sequenced (oncology)", "WGS + WES + Panel", "EHR + Pathology + Imaging",
+    "Variable", "Yes", "Limited", "Custom",
+    "Commercial", "High (oncology)",
+    "Largest clinical molecular oncology database; multimodal data (imaging + molecular + EHR); AI-powered Lens platform; deep community oncology reach",
+    "Oncology-only; no rare/cardiometabolic depth; no recontact capability; proprietary/expensive",
+    "https://www.tempus.com"
+  ],
+  [
+    "Flatiron Health", "Flatiron Health (Roche subsidiary)", "Commercial",
+    "7M+ cancer patients (US)", "Linked (Foundation Medicine)", "EHR (oncology structured)",
+    "Variable", "Yes", "No", "Custom (oncology)",
+    "Commercial", "High (oncology)",
+    "FDA-recognized RWE source; deep community oncology EHR; Foundation Medicine genomics linkage; regulatory-grade evidence generation",
+    "Oncology-only; no recontact; Roche ownership may conflict with competing pharma; no rare/metabolic disease",
+    "https://flatiron.com"
+  ],
+  [
+    "23andMe Research", "23andMe", "Commercial",
+    "14M+ consumers; ~80% research consented", "SNP Array (GWAS chip)", "Self-Reported Surveys",
+    "None (self-reported only)", "Limited", "Yes", "Custom",
+    "Commercial (limited — post-bankruptcy)", "Low",
+    "Massive scale for GWAS discovery; diverse survey phenotypes; recontact possible; consumer-derived genetic data",
+    "Array-only (no WES/WGS); self-reported phenotypes (low clinical validity); financial instability; no EHR/claims depth",
+    "https://research.23andme.com"
+  ],
+  [
+    "deCODE Genetics (Amgen)", "deCODE Genetics / Amgen", "Public-Private Consortium",
+    "200K+ WGS (>60% of Icelandic adults)", "WGS", "National Registries (Iceland)",
+    "National registry (decades)", "Limited", "Yes", "Custom",
+    "Partnership (Amgen-controlled)", "Medium-High",
+    "Most complete population-level WGS dataset; exceptional rare variant discovery; family linkage; National Registry depth; underpins major target validation work",
+    "Icelandic population only (limited diversity); Amgen-controlled (restricted external access); limited therapeutic area breadth",
+    "https://www.decode.com"
+  ],
+  [
+    "Epic Cosmos", "Epic Systems", "Real-World Data Network",
+    "300M+ patients; 350+ Epic orgs (US)", "Limited (test results only)", "EHR (Epic — rich structured)",
+    "Variable (Epic implementation)", "Yes", "No", "FHIR (HL7)",
+    "Commercial (Epic customers)", "Medium",
+    "Largest EHR network in the US; rich structured clinical data; near-real-time updates; FHIR-native; covers 38% of US patients",
+    "No raw genomics; Epic customers only; no recontact capability; US-centric",
+    "https://www.epic.com/cosmos"
+  ],
+  [
+    "Terra / Broad Institute", "Broad Institute + Microsoft + Verily", "Cloud Research Platform",
+    "Federated (hosts UKB, TOPMed, TCGA, GTEx, etc.)", "WGS + WES (by dataset)", "Variable by dataset",
+    "Variable by dataset", "Yes", "No", "FHIR + Custom",
+    "Application (free compute credits)", "Medium",
+    "Cloud-native analysis hub; interoperability across major public genomic datasets; Jupyter/R notebooks; large research community",
+    "Not a data generator (platform only); no proprietary cohort; no recontact; data access still requires per-dataset approval",
+    "https://terra.bio"
+  ]
+];
+
+// ── FEATURE HEATMAP DATA ─────────────────────────────────────
+// Per platform: [WGS, WES/Exome+, EHR, Claims, Longitudinal>10yr,
+//               Builder, Recontact, OMOP/FHIR, PharmaAccess,
+//               RareDisease, Cardio, Oncology, GLP1/Obesity, Autoimmune, DiverseAncestry]
+// "Y"=full, "P"=partial/limited, "N"=none
+const HEATMAP = [
+  ["N","Y","Y","Y","Y","Y","Y","Y","Y","P","Y","N","Y","Y","P"], // GenoSphere
+  ["Y","Y","Y","N","Y","Y","P","N","P","P","Y","P","N","P","P"], // UK Biobank
+  ["Y","P","Y","N","P","Y","Y","Y","P","P","P","N","P","P","Y"], // All of Us
+  ["Y","N","P","N","P","Y","P","N","P","Y","N","Y","N","N","P"], // GEL
+  ["Y","Y","Y","N","Y","N","N","N","P","P","Y","N","N","P","N"], // FinnGen
+  ["N","Y","Y","N","Y","N","Y","N","P","P","Y","N","N","Y","N"], // DiscovEHR
+  ["P","N","Y","N","Y","N","P","N","N","N","Y","N","N","N","Y"], // MVP
+  ["N","N","Y","Y","P","Y","N","P","Y","P","Y","Y","P","Y","Y"], // TriNetX
+  ["N","N","Y","Y","P","Y","N","Y","P","N","Y","Y","N","Y","Y"], // OHDSI
+  ["Y","Y","Y","N","P","Y","P","N","Y","P","N","Y","N","N","P"], // Tempus
+  ["P","P","Y","N","P","Y","N","N","Y","N","N","Y","N","N","P"], // Flatiron
+  ["N","N","N","N","N","P","Y","N","P","N","N","N","P","N","Y"], // 23andMe
+  ["Y","N","Y","N","Y","N","Y","N","P","Y","Y","N","N","P","N"], // deCODE
+  ["N","N","Y","Y","P","Y","N","Y","P","P","Y","Y","P","Y","Y"], // Epic Cosmos
+  ["Y","Y","P","N","P","Y","N","Y","P","Y","P","Y","N","N","Y"], // Terra
+];
+
+const HM_LABELS = [
+  "WGS","WES / Exome+","EHR Linkage","Claims Data","Longitudinal >10yr",
+  "Cohort Builder UI","Recontact","OMOP / FHIR","Pharma Access",
+  "Rare Disease","Cardiometabolic","Oncology","GLP-1 / Obesity","Autoimmune","Diverse Ancestry"
+];
+
+// ── RENDER HELPERS ────────────────────────────────────────────
+function typeClass(t) {
+  const m = {
+    "Commercial": "type-commercial",
+    "Public Biobank": "type-public",
+    "Public-Private Consortium": "type-consortium",
+    "Federal Biobank": "type-federal",
+    "Real-World Data Network": "type-network",
+    "Health System Biobank": "type-health",
+    "Cloud Research Platform": "type-cloud"
+  };
+  return m[t] || "type-public";
+}
+function geoClass(g) {
+  if (g.includes("Exome+")) return "geo-exomeplus";
+  if (g.startsWith("WGS")) return "geo-wgs";
+  if (g.startsWith("WES")) return "geo-wes";
+  if (g.includes("Array")) return "geo-array";
+  if (g.includes("Panel")) return "geo-panel";
+  if (g === "Limited (test results only)" || g.includes("Linked")) return "geo-limited";
+  if (g === "None") return "geo-none";
+  return "geo-limited";
+}
+function fitClass(f) {
+  if (f.startsWith("High")) return "fit-high";
+  if (f.startsWith("Medium")) return "fit-medium";
+  return "fit-low";
+}
+function ynClass(v) {
+  if (v === "Yes") return "yn-yes";
+  if (v === "No") return "yn-no";
+  return "yn-limited";
+}
+function stdBadge(s) {
+  if (s.includes("OMOP")) return `<span class="std-badge std-omop">${s}</span>`;
+  if (s.includes("FHIR")) return `<span class="std-badge std-fhir">${s}</span>`;
+  if (s.includes("+")) return `<span class="std-badge std-multi">${s}</span>`;
+  return `<span class="std-badge std-custom">${s}</span>`;
+}
+function accessClass(a) {
+  const m = {
+    "Commercial": "access-commercial",
+    "Application": "access-application",
+    "Application (free)": "access-application",
+    "Application (federated)": "access-federated",
+    "Open-source (federated)": "access-open",
+    "Application (free compute credits)": "access-application",
+    "Commercial (limited — post-bankruptcy)": "access-commercial",
+    "Partnership (Regeneron)": "access-partnership",
+    "Partnership (Amgen-controlled)": "access-partnership",
+    "VA researcher access only": "access-federated",
+    "Commercial (Epic customers)": "access-commercial",
+    "Consortium (public summary stats)": "access-open"
+  };
+  return m[a] || "access-application";
+}
+function hmCell(v) {
+  if (v === "Y") return `<span class="hm-yes">✓</span>`;
+  if (v === "P") return `<span class="hm-part">~</span>`;
+  return `<span class="hm-no">–</span>`;
+}
+
+// ── SORT STATE ────────────────────────────────────────────────
+let sortCol = -1, sortAsc = true;
+
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc;
+  else { sortCol = col; sortAsc = true; }
+  document.querySelectorAll('#main-table thead th').forEach(th => {
+    const matched = parseInt(th.dataset.col) === col;
+    th.classList.toggle('sorted', matched);
+    const icon = th.querySelector('.sort-icon');
+    if (icon) icon.textContent = matched ? (sortAsc ? '↑' : '↓') : '↕';
+  });
+  render();
+}
+
+// ── FILTER ────────────────────────────────────────────────────
+function filterRows() {
+  const q      = document.getElementById('f-search').value.trim().toLowerCase();
+  const ftype  = document.getElementById('f-type').value;
+  const fgeo   = document.getElementById('f-genomics').value;
+  const fphar  = document.getElementById('f-pharma').value;
+  const frc    = document.getElementById('f-recontact').value;
+
+  return DATA.filter(r => {
+    if (q && !r.slice(0, 13).join(' ').toLowerCase().includes(q)) return false;
+    if (ftype && r[2] !== ftype) return false;
+    if (fgeo) {
+      const geo = r[4];
+      if (fgeo === 'WGS' && !geo.includes('WGS')) return false;
+      if (fgeo === 'WES' && !geo.includes('WES') && !geo.includes('Exome')) return false;
+      if (fgeo === 'Array' && !geo.includes('Array') && !geo.includes('SNP') && !geo.includes('GWAS')) return false;
+      if (fgeo === 'None' && geo !== 'None' && !geo.includes('test results') && !geo.includes('Linked')) return false;
+    }
+    if (fphar && !r[11].startsWith(fphar)) return false;
+    if (frc && r[8] !== frc) return false;
+    return true;
+  });
+}
+
+// ── RENDER ────────────────────────────────────────────────────
+function render() {
+  let rows = filterRows();
+  if (sortCol >= 0) {
+    rows = [...rows].sort((a, b) => {
+      const av = a[sortCol] || '', bv = b[sortCol] || '';
+      return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+    });
+  }
+
+  const tbody = document.getElementById('tbody');
+  tbody.innerHTML = rows.map(r => {
+    const isHelix = r[0].startsWith("Helix");
+    const star = isHelix ? `<span class="platform-star">★</span>` : '';
+    return `<tr class="${isHelix ? 'helix-row' : ''}">
+      <td>
+        <div class="platform-name">${r[0]}${star}</div>
+        <div class="platform-org">${r[1]}</div>
+      </td>
+      <td><span class="type-badge ${typeClass(r[2])}">${r[2]}</span></td>
+      <td style="font-size:11.5px;">${r[3]}</td>
+      <td><span class="geo-chip ${geoClass(r[4])}">${r[4]}</span></td>
+      <td style="font-size:11.5px;">${r[5]}</td>
+      <td style="font-size:11.5px;">${r[6]}</td>
+      <td class="${ynClass(r[7])}">${r[7]}</td>
+      <td class="${ynClass(r[8])}">${r[8]}</td>
+      <td>${stdBadge(r[9])}</td>
+      <td><span class="access-badge ${accessClass(r[10])}">${r[10]}</span></td>
+      <td class="${fitClass(r[11])}">${r[11]}</td>
+      <td class="strength-text">${r[12]}</td>
+      <td class="gap-text">${r[13]}</td>
+      <td><a href="${r[14]}" target="_blank" class="ref-link">View ↗</a></td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('count-badge').textContent = `${rows.length} platform${rows.length !== 1 ? 's' : ''}`;
+  updateStats(rows);
+}
+
+// ── HEATMAP RENDER ────────────────────────────────────────────
+function renderHeatmap() {
+  const tbody = document.getElementById('heatmap-tbody');
+  tbody.innerHTML = DATA.map((r, i) => {
+    const isHelix = r[0].startsWith("Helix");
+    const cells = HEATMAP[i].map(v => `<td>${hmCell(v)}</td>`).join('');
+    const shortName = r[0].replace(' Explorer', '').replace(' Research Environment', '').replace(' Researcher Workbench', '');
+    return `<tr class="${isHelix ? 'helix-hm' : ''}">
+      <td class="td-platform">${isHelix ? '<strong>' : ''}${shortName}${isHelix ? '</strong>' : ''}</td>
+      ${cells}
+    </tr>`;
+  }).join('');
+}
+
+// ── STATS ─────────────────────────────────────────────────────
+function updateStats(rows) {
+  const total   = rows.length;
+  const pub     = rows.filter(r => r[2] === 'Public Biobank' || r[2] === 'Federal Biobank' || r[2] === 'Public-Private Consortium').length;
+  const comm    = rows.filter(r => r[2] === 'Commercial').length;
+  const rc      = rows.filter(r => r[8] === 'Yes').length;
+  const highFit = rows.filter(r => r[11].startsWith('High')).length;
+
+  document.getElementById('stats-row').innerHTML = `
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Platforms Tracked</div></div>
+    <div class="stat-card"><div class="stat-num">${pub}</div><div class="stat-label">Public / Consortium</div></div>
+    <div class="stat-card green"><div class="stat-num">${comm}</div><div class="stat-label">Commercial Platforms</div></div>
+    <div class="stat-card amber"><div class="stat-num">${rc}</div><div class="stat-label">With Recontact</div></div>
+    <div class="stat-card"><div class="stat-num">${highFit}</div><div class="stat-label">High Pharma Fit</div></div>
+  `;
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+['f-search','f-type','f-genomics','f-pharma','f-recontact'].forEach(id => {
+  document.getElementById(id).addEventListener('input', render);
+  document.getElementById(id).addEventListener('change', render);
+});
+
+render();
+renderHeatmap();
+updateStats(DATA);
+</script>
+</body>
+</html>
