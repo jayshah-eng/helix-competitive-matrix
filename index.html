@@ -71,6 +71,27 @@
   tr.helix-row { background: linear-gradient(90deg, rgba(43,101,181,0.05) 0%, transparent 100%) !important; }
   tr.helix-row:hover { background: linear-gradient(90deg, rgba(43,101,181,0.12) 0%, #EDF3FF 100%) !important; }
 
+  /* STICKY FIRST COLUMN */
+  thead th:first-child { position: sticky; left: 0; z-index: 3; background: var(--navy); box-shadow: 2px 0 6px rgba(26,42,74,0.12); }
+  tbody td:first-child { position: sticky; left: 0; z-index: 2; background: var(--card); box-shadow: 2px 0 6px rgba(26,42,74,0.07); }
+  tbody tr:nth-child(even) td:first-child { background: var(--alt); }
+  tbody tr:hover td:first-child { background: #EDF3FF; }
+  tbody tr.helix-row td:first-child { background: rgba(43,101,181,0.05); }
+  tbody tr.helix-row:hover td:first-child { background: rgba(43,101,181,0.12); }
+  /* heatmap sticky first col */
+  .heatmap thead th.col-name { position: sticky; left: 0; z-index: 3; background: var(--navy); box-shadow: 2px 0 6px rgba(26,42,74,0.12); }
+  .heatmap tbody td.td-name { position: sticky; left: 0; z-index: 2; background: var(--card); box-shadow: 2px 0 6px rgba(26,42,74,0.07); }
+  .heatmap tbody tr:nth-child(even) td.td-name { background: var(--alt); }
+  .heatmap tbody tr.helix-hm td.td-name { background: rgba(43,101,181,0.05); }
+
+  /* TOP SCROLLBAR MIRROR */
+  .scroll-mirror { overflow-x: auto; overflow-y: hidden; height: 14px; padding: 0 28px; box-sizing: border-box; margin-bottom: -4px; }
+  .scroll-mirror > div { height: 1px; }
+  .scroll-mirror::-webkit-scrollbar { height: 8px; }
+  .scroll-mirror::-webkit-scrollbar-track { background: var(--border); border-radius: 4px; }
+  .scroll-mirror::-webkit-scrollbar-thumb { background: #B0BCCC; border-radius: 4px; }
+  .scroll-mirror::-webkit-scrollbar-thumb:hover { background: var(--acc); }
+
   /* BADGES */
   .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; white-space: nowrap; }
   .chip  { display: inline-block; padding: 2px 7px; border-radius: 4px; font-size: 10px; font-weight: 600; white-space: nowrap; }
@@ -605,6 +626,7 @@ function pRender(){
   }).join('');
   document.getElementById('p-count').textContent=`${rows.length} platform${rows.length!==1?'s':''}`;
   pUpdateStats(rows);
+  syncScrollbarWidths();
 }
 function pUpdateStats(rows){
   const total=rows.length,pub=rows.filter(r=>['Public Biobank','Federal Biobank','Public-Private Consortium'].includes(r[2])).length,comm=rows.filter(r=>r[2]==='Commercial').length,rc=rows.filter(r=>r[8]==='Yes').length,hf=rows.filter(r=>r[11].startsWith('High')).length;
@@ -701,6 +723,7 @@ function cRender(){
   }).join('');
   document.getElementById('c-count').textContent=`${rows.length} tool${rows.length!==1?'s':''}`;
   cUpdateStats(rows.map(x=>x.r));
+  syncScrollbarWidths();
 }
 function cUpdateStats(rows){
   const total=rows.length,nocode=rows.filter(r=>r[3]==='No-Code GUI').length,genomic=rows.filter(r=>r[4]==='Yes').length,omop=rows.filter(r=>r[12].includes('OMOP')).length,trial=rows.filter(r=>r[11]==='Yes').length;
@@ -743,10 +766,38 @@ function priceFormat(p){
 }
 
 // ═══════════════════════════════════════════════════════
+// TOP SCROLLBAR MIRRORS
+// ═══════════════════════════════════════════════════════
+const _mirrors = new Map();
+function initTopScrollbars() {
+  document.querySelectorAll('.table-wrap').forEach(wrap => {
+    const mirror = document.createElement('div');
+    mirror.className = 'scroll-mirror';
+    const inner = document.createElement('div');
+    mirror.appendChild(inner);
+    wrap.parentNode.insertBefore(mirror, wrap);
+    _mirrors.set(wrap, inner);
+    mirror.addEventListener('scroll', () => { wrap.scrollLeft = mirror.scrollLeft; });
+    wrap.addEventListener('scroll', () => { mirror.scrollLeft = wrap.scrollLeft; });
+  });
+}
+function syncScrollbarWidths() {
+  requestAnimationFrame(() => {
+    _mirrors.forEach((inner, wrap) => {
+      const tbl = wrap.querySelector('table');
+      if (tbl) inner.style.width = tbl.offsetWidth + 'px';
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════════════════
 pRender(); pRenderHeatmap(); pUpdateStats(P_DATA);
 cRender(); cRenderHeatmap(); cRenderScores(); cUpdateStats(C_DATA);
+initTopScrollbars();
+syncScrollbarWidths();
+window.addEventListener('resize', syncScrollbarWidths);
 </script>
 </body>
 </html>
