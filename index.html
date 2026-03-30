@@ -224,6 +224,7 @@
   <div class="tab-bar">
     <button class="tab-btn active" onclick="switchTab('platforms',this)">Platform &amp; Data Overview</button>
     <button class="tab-btn" onclick="switchTab('cohort',this)">Cohort Builder &amp; Analysis Tools</button>
+    <button class="tab-btn" onclick="switchTab('dx',this)">Diagnostics STP Landscape</button>
   </div>
 </div>
 
@@ -523,6 +524,127 @@
   </div>
 </div><!-- /tab-cohort -->
 
+<!-- ═══════════════════════════════════════════════════
+     TAB 3 — DIAGNOSTICS STP LANDSCAPE
+════════════════════════════════════════════════════ -->
+<div id="tab-dx" class="tab-pane">
+
+  <div class="stats-row" id="d-stats-row"></div>
+
+  <div class="filter-bar">
+    <label>Search</label>
+    <input type="text" id="d-search" placeholder="Company, assay, TA, keyword…">
+    <label>Assay</label>
+    <select id="d-assay">
+      <option value="">All Assays</option>
+      <option value="WGS">WGS</option>
+      <option value="WES">WES / Exome</option>
+      <option value="Panel">Panel</option>
+      <option value="cfDNA">cfDNA</option>
+    </select>
+    <label>STP Status</label>
+    <select id="d-stp">
+      <option value="">All</option>
+      <option>Established</option>
+      <option>Growing</option>
+    </select>
+    <span class="count-badge" id="d-count">— companies</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="d-table">
+      <thead><tr>
+        <th onclick="dSort(0)" data-col="0">Company <span class="sort-icon">↕</span></th>
+        <th onclick="dSort(2)" data-col="2">Assay Backbone <span class="sort-icon">↕</span></th>
+        <th>Test Menu Scope</th>
+        <th onclick="dSort(4)" data-col="4">GC Avail. <span class="sort-icon">↕</span></th>
+        <th onclick="dSort(5)" data-col="5">HCP Field Team <span class="sort-icon">↕</span></th>
+        <th onclick="dSort(6)" data-col="6">Data Delivery <span class="sort-icon">↕</span></th>
+        <th onclick="dSort(7)" data-col="7">HCP Notification <span class="sort-icon">↕</span></th>
+        <th onclick="dSort(8)" data-col="8">Clinical Data Incorp. <span class="sort-icon">↕</span></th>
+        <th onclick="dSort(9)" data-col="9">Biopharma / STP <span class="sort-icon">↕</span></th>
+        <th>Primary TA</th>
+        <th>Key Differentiator</th>
+        <th>Gap / Weakness</th>
+        <th>Pricing</th>
+        <th>Ref</th>
+      </tr></thead>
+      <tbody id="d-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header">Feature Capability Heatmap</div>
+  <div class="section-sub">✓ Full capability &nbsp;·&nbsp; ~ Partial / Limited &nbsp;·&nbsp; – Not available</div>
+  <div class="heatmap-wrap">
+    <table class="heatmap">
+      <thead><tr>
+        <th class="col-name">Company</th>
+        <th title="WGS Backbone">WGS</th>
+        <th title="WES / Exome Backbone">WES / Exome</th>
+        <th title="Multi-gene Panel Menu">Panel Menu</th>
+        <th title="Genetic Counselor Availability In-House">GC Avail.</th>
+        <th title="HCP Field Team">HCP Field</th>
+        <th title="Data Delivery to Pharma">Data Delivery</th>
+        <th title="Screening / HCP Notification">HCP Notif.</th>
+        <th title="Clinical Data Incorporation (EHR / Claims)">Clinical Data</th>
+        <th title="Established STP / Biopharma Business">STP Business</th>
+        <th title="Patient ID / Recontact for Studies">Recontact</th>
+        <th title="Reimbursement Navigation Support">Reimb. Nav.</th>
+        <th title="RWE Generation Capability">RWE Gen.</th>
+        <th title="Rare Disease Depth">Rare Disease</th>
+        <th title="Pan-TA Coverage (multiple TAs)">Pan-TA</th>
+        <th title="Pre-symptomatic Screening Program">Pre-Sympt.</th>
+      </tr></thead>
+      <tbody id="d-hm-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header">Key Competitive Insights</div>
+  <div class="insights-grid">
+    <div class="insight-card highlight">
+      <h3>Helix STP Competitive Advantages</h3>
+      <ul>
+        <li>Only STP partner combining Exome+ WES with linked 13+ yr EHR + claims data at commercial scale</li>
+        <li>World's largest specialized GLP-1 (55K+) and cardiometabolic (230K+) genomic cohorts</li>
+        <li>Recontact-enabled: consented participants can be engaged for trials and prospective follow-up</li>
+        <li>OMOP-harmonized data delivery integrates directly into pharma analytics workflows</li>
+        <li>Broadest TA genomic coverage: cardiometabolic, GLP-1, autoimmune, rare disease in one platform</li>
+      </ul>
+    </div>
+    <div class="insight-card">
+      <h3>Where Competitors Lead</h3>
+      <ul>
+        <li><strong>GeneDx:</strong> Largest WGS rare disease diagnostic volume; AI variant interpretation at scale</li>
+        <li><strong>Ambry/Tempus:</strong> Multimodal integration (diagnostics + Tempus Lens AI analytics platform)</li>
+        <li><strong>Blueprint/Quest:</strong> Broadest panel gene menu (4,000+ genes); massive Quest patient network</li>
+        <li><strong>Natera:</strong> Leading cfDNA/liquid biopsy platform; strong oncology pharma partnerships</li>
+        <li><strong>Invitae/Labcorp:</strong> Established large-scale STP infrastructure; Labcorp commercial reach</li>
+      </ul>
+    </div>
+    <div class="insight-card">
+      <h3>Universal STP Gaps in the Market</h3>
+      <ul>
+        <li>No competitor links germline diagnostics to longitudinal RWD (EHR + claims) at commercial scale</li>
+        <li>Most labs deliver test reports only — few deliver RWE-ready linked datasets to pharma partners</li>
+        <li>Recontact capability is rare or heavily restricted across most diagnostic lab STP programs</li>
+        <li>GLP-1 / cardiometabolic genomics underserved — most labs focus on rare disease or oncology</li>
+        <li>Pre-symptomatic screening requires consented populations that most diagnostic labs don't maintain</li>
+      </ul>
+    </div>
+    <div class="insight-card">
+      <h3>Pharma STP Partner Selection Criteria</h3>
+      <ul>
+        <li><strong>Test volume &amp; reach:</strong> Invitae/Labcorp, Quest/Blueprint, GeneDx lead on scale</li>
+        <li><strong>Data richness &amp; RWE:</strong> Helix (EHR-linked OMOP), Ambry/Tempus (multimodal) lead here</li>
+        <li><strong>Rare disease depth:</strong> GeneDx (WGS), Blueprint (broad panels), Prevention Genetics</li>
+        <li><strong>Cardiometabolic / GLP-1:</strong> Helix uniquely positioned with purpose-built genomic cohorts</li>
+        <li><strong>Oncology / MRD:</strong> Natera (Signatera), Tempus/Ambry (multimodal oncology analytics)</li>
+        <li><strong>Recontact for trials:</strong> Helix is the only platform with consented longitudinal recontact</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- /tab-dx -->
+
 <div class="footer">HELIX GENOSPHERE™ · COMPETITIVE INTELLIGENCE · MARCH 2026</div>
 
 <script>
@@ -760,6 +882,92 @@ function cRenderScores(){
 });
 
 // ═══════════════════════════════════════════════════════
+// TAB 3 — DIAGNOSTICS STP DATA
+// ═══════════════════════════════════════════════════════
+// [0]Company [1]Parent [2]AssayBackbone [3]TestMenuScope
+// [4]GCAvail [5]HCPField [6]DataDelivery [7]HCPNotif
+// [8]ClinicalData [9]STPBusiness [10]PrimaryTA
+// [11]Differentiator [12]Gap [13]Pricing [14]URL
+const D_DATA = [
+  ["Helix","Helix","Exome+ (WES)","Cardiometabolic, GLP-1, Autoimmune, Rare Disease; growing test menu","Yes","Yes","Yes","Yes","Yes","Established","Cardiometabolic, GLP-1, Autoimmune, Rare Disease","Only STP combining Exome+ WES with linked 13+ yr EHR + claims; world's largest GLP-1 genomic cohort (55K+); OMOP-harmonized RWD delivery; consented recontact for trial recruitment","Smaller tested population vs. commercial labs; WGS not yet offered; limited oncology depth","Custom · Partnership-based","https://www.helix.com/what-we-do/helix-genosphere"],
+  ["Invitae (Labcorp)","Labcorp","Panels + WES","Hereditary cancer, cardio, rare disease, neurology, reproductive; broad multi-TA menu","Yes","Yes","Limited","Yes","Limited","Established","Hereditary Cancer, Cardio, Rare Disease, Neurology","Scale (millions tested); established pharma STP relationships across multiple TAs; broad test menu; Labcorp commercial distribution network","No longitudinal EHR/claims linkage; no RWE platform; Invitae financial restructuring under Labcorp","Per-test: $250–500+ · STP: Custom pharma contracts","https://www.invitae.com/en/providers/sponsored-testing"],
+  ["GeneDx","GeneDx (SEMA4)","WGS + WES","Rare disease (pediatric, adult), neurological, cardiogenomics; WGS-first strategy","Yes","Yes","Yes","Yes","Limited","Established","Rare Disease, Neurology, Cardiogenomics","Largest WGS rare disease diagnostic lab in US; AI-powered variant interpretation; deep rare disease phenotypic dataset; strong pharma rare disease STP partnerships","Limited cardiometabolic/GLP-1/autoimmune depth; no linked longitudinal population data; rare disease-focused","Per-test: $500–2,000+ · STP: Custom pharma contracts","https://www.genedx.com/pharma"],
+  ["Ambry Genetics / Tempus","Tempus AI","Panels + WES","Hereditary cancer, cardio genetics, rare disease; integrates with Tempus Lens multimodal oncology platform","Yes","Yes","Yes","Yes","Yes","Established","Hereditary Cancer, Oncology, Cardio, Rare Disease","Multimodal integration (Ambry diagnostics + Tempus AI Lens analytics); strong hereditary cancer STP franchise; combined pharma reach across oncology and rare disease","Complex post-acquisition organizational integration; oncology-heavy analytics focus; Ambry cardiogenomics data still maturing","Per-test: $200–800+ · STP: Custom · Tempus enterprise licensing","https://www.ambrygen.com/partners/pharma"],
+  ["Prevention Genetics (Revvity)","Revvity (fmr. PerkinElmer)","WGS + WES + Panels","Comprehensive rare disease, cardiogenomics, neurological, reproductive genetics; WGS available","Limited","Limited","Limited","Limited","No","Growing","Rare Disease, Reproductive Genetics, Newborn Screening","Broad WGS test menu for rare disease; strong newborn screening expertise; Revvity enterprise backing and global reach; expanding pharma services division","Limited dedicated GC program; enterprise commercial model; limited pharma-facing STP infrastructure; no RWD/RWE platform","Per-test: $500–2,000+ · Custom R&D / pharma contracts","https://www.preventiongenetics.com"],
+  ["Natera","Natera (NTRA)","cfDNA + SNP Panels","Prenatal NIPT, oncology MRD monitoring (Signatera), organ transplant (Prospera); cfDNA-based","Yes","Yes","Yes","Yes","Limited","Established","Oncology (MRD), Reproductive Health (Prenatal), Transplant","Leading cfDNA/liquid biopsy platform; Signatera enables tumor-informed MRD monitoring; strong oncology pharma partnerships; FDA breakthrough designations for Signatera","Different model from germline labs; limited rare disease/cardiometabolic depth; prenatal-centric origins; no germline population cohort","Per-test: NIPT ~$1,000+ · Signatera ~$2,000+ · Pharma: Custom","https://www.natera.com/partners/pharma"],
+  ["Blueprint Genetics (Quest)","Quest Diagnostics","Panels + WES","Comprehensive rare disease (cardio, neuro, ophtho), hereditary cancer; 4,000+ gene panel menu","Yes","Yes","Yes","Yes","Limited","Established","Rare Disease (Cardio, Neuro, Ophtho), Hereditary Cancer","Broadest panel gene menu (4,000+ genes); Quest's massive patient network; rapid turnaround times; strong cardio rare disease expertise; Quest pharma services integration","No WGS offering; limited longitudinal RWD/EHR integration; outcomes data depth limited vs. biobank-linked platforms","Per-test: $200–1,000+ · STP: Custom pharma contracts","https://www.blueprintgenetics.com/pharma"]
+];
+
+// 15-feature heatmap per company
+// WGS, WES, Panel, GCAvail, HCPField, DataDelivery, HCPNotif, ClinData, STPBiz, Recontact, Reimb, RWE, RareDisease, PanTA, PreSympt
+const D_HEATMAP = [
+  ["N","Y","P","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y","Y"], // Helix
+  ["P","Y","Y","Y","Y","P","Y","P","Y","P","Y","P","Y","Y","Y"], // Invitae/Labcorp
+  ["Y","Y","P","Y","Y","Y","Y","P","Y","P","Y","P","Y","P","Y"], // GeneDx
+  ["N","Y","Y","Y","Y","Y","Y","Y","Y","P","Y","Y","Y","Y","P"], // Ambry/Tempus
+  ["Y","Y","Y","P","P","P","P","N","P","N","P","N","Y","Y","P"], // Prevention Genetics
+  ["P","N","P","Y","Y","Y","Y","P","Y","P","Y","Y","P","P","N"], // Natera
+  ["N","Y","Y","Y","Y","Y","Y","P","Y","P","Y","P","Y","Y","P"]  // Blueprint/Quest
+];
+
+function dAssayClass(a){
+  if(a.includes('Exome+'))return'g-exomeplus';
+  if(a.startsWith('WGS'))return'g-wgs';
+  if(a.includes('WES'))return'g-wes';
+  if(a.includes('cfDNA'))return'g-panel';
+  if(a.includes('Panel'))return'g-panel';
+  return'g-limited';
+}
+function dStpClass(s){
+  if(s==='Established')return't-commercial';
+  if(s==='Growing')return't-federal';
+  return't-network';
+}
+
+let dSortCol=-1,dSortAsc=true;
+function dSort(col){
+  if(dSortCol===col)dSortAsc=!dSortAsc;else{dSortCol=col;dSortAsc=true;}
+  document.querySelectorAll('#d-table thead th').forEach(th=>{const m=parseInt(th.dataset.col)===col;th.classList.toggle('sorted',m);const ic=th.querySelector('.sort-icon');if(ic)ic.textContent=m?(dSortAsc?'↑':'↓'):'↕';});
+  dRender();
+}
+function dFilter(){
+  const q=document.getElementById('d-search').value.trim().toLowerCase();
+  const fa=document.getElementById('d-assay').value;
+  const fs=document.getElementById('d-stp').value;
+  return D_DATA.filter(r=>{
+    if(q&&!r.slice(0,13).join(' ').toLowerCase().includes(q))return false;
+    if(fa){const a=r[2];if(fa==='WGS'&&!a.includes('WGS'))return false;if(fa==='WES'&&!a.includes('WES')&&!a.includes('Exome'))return false;if(fa==='Panel'&&!a.includes('Panel'))return false;if(fa==='cfDNA'&&!a.includes('cfDNA'))return false;}
+    if(fs&&r[9]!==fs)return false;
+    return true;
+  });
+}
+function dRender(){
+  let rows=dFilter();
+  if(dSortCol>=0)rows=[...rows].sort((a,b)=>dSortAsc?a[dSortCol].localeCompare(b[dSortCol]):b[dSortCol].localeCompare(a[dSortCol]));
+  document.getElementById('d-tbody').innerHTML=rows.map(r=>{
+    const hl=r[0]==='Helix';
+    return`<tr class="${hl?'helix-row':''}"><td><div class="name-primary">${r[0]}${hl?'<span class="star">★</span>':''}</div><div class="name-sub">${r[1]}</div></td><td><span class="chip ${dAssayClass(r[2])}">${r[2]}</span></td><td style="font-size:11px;max-width:180px">${r[3]}</td><td class="${ynClass(r[4])}">${r[4]}</td><td class="${ynClass(r[5])}">${r[5]}</td><td class="${ynClass(r[6])}">${r[6]}</td><td class="${ynClass(r[7])}">${r[7]}</td><td class="${ynClass(r[8])}">${r[8]}</td><td><span class="badge ${dStpClass(r[9])}">${r[9]}</span></td><td style="font-size:11px;max-width:160px">${r[10]}</td><td class="text-cell">${r[11]}</td><td class="muted-cell">${r[12]}</td><td class="${priceClass(r[13])}">${priceFormat(r[13])}</td><td><a href="${r[14]}" target="_blank" class="ref-link">View ↗</a></td></tr>`;
+  }).join('');
+  document.getElementById('d-count').textContent=`${rows.length} compan${rows.length!==1?'ies':'y'}`;
+  dUpdateStats(rows);
+  syncScrollbarWidths();
+}
+function dUpdateStats(rows){
+  const total=rows.length,est=rows.filter(r=>r[9]==='Established').length,hcp=rows.filter(r=>r[5]==='Yes').length,dd=rows.filter(r=>r[6]==='Yes').length,rc=rows.filter(r=>{const idx=D_DATA.indexOf(r);return idx>=0&&D_HEATMAP[idx][9]==='Y';}).length;
+  document.getElementById('d-stats-row').innerHTML=`<div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Companies Tracked</div></div><div class="stat-card green"><div class="stat-num">${est}</div><div class="stat-label">Established STP</div></div><div class="stat-card amber"><div class="stat-num">${hcp}</div><div class="stat-label">HCP Field Team</div></div><div class="stat-card"><div class="stat-num">${dd}</div><div class="stat-label">Pharma Data Delivery</div></div><div class="stat-card red"><div class="stat-num">${rc}</div><div class="stat-label">Full Recontact</div></div>`;
+}
+function dRenderHeatmap(){
+  document.getElementById('d-hm-tbody').innerHTML=D_DATA.map((r,i)=>{
+    const hl=r[0]==='Helix';
+    return`<tr class="${hl?'helix-hm':''}"><td class="td-name">${hl?'<strong>':''}${r[0]}${hl?'</strong>':''}</td>${D_HEATMAP[i].map(v=>`<td>${hmCell(v)}</td>`).join('')}</tr>`;
+  }).join('');
+}
+['d-search','d-assay','d-stp'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('input',dRender);el.addEventListener('change',dRender);
+});
+
+// ═══════════════════════════════════════════════════════
 // PRICING HELPERS
 // ═══════════════════════════════════════════════════════
 function priceClass(p){
@@ -804,6 +1012,7 @@ function syncScrollbarWidths() {
 // ═══════════════════════════════════════════════════════
 pRender(); pRenderHeatmap(); pUpdateStats(P_DATA);
 cRender(); cRenderHeatmap(); cRenderScores(); cUpdateStats(C_DATA);
+dRender(); dRenderHeatmap(); dUpdateStats(D_DATA);
 initTopScrollbars();
 syncScrollbarWidths();
 window.addEventListener('resize', syncScrollbarWidths);
