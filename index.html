@@ -599,6 +599,27 @@
     </table>
   </div>
 
+  <div class="section-header" style="margin-top:12px;">Pharma Partner Portal Capabilities</div>
+  <div class="section-sub">Digital tools available to pharma sponsors for monitoring STP program performance &nbsp;·&nbsp; ✓ Available &nbsp;·&nbsp; ~ Partial / In Development &nbsp;·&nbsp; – Not available</div>
+  <div class="heatmap-wrap">
+    <table class="heatmap">
+      <thead><tr>
+        <th class="col-name">Company</th>
+        <th title="Real-time self-serve dashboard portal for program sponsors">Real-time Dashboard</th>
+        <th title="Live enrollment metrics: test volumes, % toward contract goal, timeline tracking">Enrollment Metrics</th>
+        <th title="Cascade testing tracking: proband-to-family member uptake rates">Cascade Testing</th>
+        <th title="HCP-level ordering analytics, geographic heatmaps, engagement patterns">HCP Analytics</th>
+        <th title="Cohort genotype and phenotype characterization as the cohort builds">Cohort Characterization</th>
+        <th title="Average clinical lab values in cohort (LDL, HbA1c, BMI, GFR, blood pressure, etc.)">Avg Lab / Clinical Values</th>
+        <th title="Patient recontact capability and trial screening funnel tracking">Recontact / Trial Funnel</th>
+        <th title="Per-test reimbursement and billing status tracking">Reimb. Tracking</th>
+        <th title="API or structured data export for pharma data teams">API / Export</th>
+        <th style="text-align:left;min-width:260px;padding-left:12px">What's Available</th>
+      </tr></thead>
+      <tbody id="d-portal-tbody"></tbody>
+    </table>
+  </div>
+
   <div class="section-header">Key Competitive Insights</div>
   <div class="insights-grid">
     <div class="insight-card highlight">
@@ -895,7 +916,9 @@ const D_DATA = [
   ["Ambry Genetics / Tempus","Tempus AI","Panels + WES","Hereditary cancer, cardio genetics, rare disease; integrates with Tempus Lens multimodal oncology platform","Yes","Yes","Yes","Yes","Yes","Established","Hereditary Cancer, Oncology, Cardio, Rare Disease","Multimodal integration (Ambry diagnostics + Tempus AI Lens analytics); strong hereditary cancer STP franchise; combined pharma reach across oncology and rare disease","Complex post-acquisition organizational integration; oncology-heavy analytics focus; Ambry cardiogenomics data still maturing","Per-test: $200–800+ · STP: Custom · Tempus enterprise licensing","https://www.ambrygen.com/partners/pharma"],
   ["Prevention Genetics (Revvity)","Revvity (fmr. PerkinElmer)","WGS + WES + Panels","Comprehensive rare disease, cardiogenomics, neurological, reproductive genetics; WGS available","Limited","Limited","Limited","Limited","No","Growing","Rare Disease, Reproductive Genetics, Newborn Screening","Broad WGS test menu for rare disease; strong newborn screening expertise; Revvity enterprise backing and global reach; expanding pharma services division","Limited dedicated GC program; enterprise commercial model; limited pharma-facing STP infrastructure; no RWD/RWE platform","Per-test: $500–2,000+ · Custom R&D / pharma contracts","https://www.preventiongenetics.com"],
   ["Natera","Natera (NTRA)","cfDNA + SNP Panels","Prenatal NIPT, oncology MRD monitoring (Signatera), organ transplant (Prospera); cfDNA-based","Yes","Yes","Yes","Yes","Limited","Established","Oncology (MRD), Reproductive Health (Prenatal), Transplant","Leading cfDNA/liquid biopsy platform; Signatera enables tumor-informed MRD monitoring; strong oncology pharma partnerships; FDA breakthrough designations for Signatera","Different model from germline labs; limited rare disease/cardiometabolic depth; prenatal-centric origins; no germline population cohort","Per-test: NIPT ~$1,000+ · Signatera ~$2,000+ · Pharma: Custom","https://www.natera.com/partners/pharma"],
-  ["Blueprint Genetics (Quest)","Quest Diagnostics","Panels + WES","Comprehensive rare disease (cardio, neuro, ophtho), hereditary cancer; 4,000+ gene panel menu","Yes","Yes","Yes","Yes","Limited","Established","Rare Disease (Cardio, Neuro, Ophtho), Hereditary Cancer","Broadest panel gene menu (4,000+ genes); Quest's massive patient network; rapid turnaround times; strong cardio rare disease expertise; Quest pharma services integration","No WGS offering; limited longitudinal RWD/EHR integration; outcomes data depth limited vs. biobank-linked platforms","Per-test: $200–1,000+ · STP: Custom pharma contracts","https://www.blueprintgenetics.com/pharma"]
+  ["Blueprint Genetics (Quest)","Quest Diagnostics","Panels + WES","Comprehensive rare disease (cardio, neuro, ophtho), hereditary cancer; 4,000+ gene panel menu","Yes","Yes","Yes","Yes","Limited","Established","Rare Disease (Cardio, Neuro, Ophtho), Hereditary Cancer","Broadest panel gene menu (4,000+ genes); Quest's massive patient network; rapid turnaround times; strong cardio rare disease expertise; Quest pharma services integration","No WGS offering; limited longitudinal RWD/EHR integration; outcomes data depth limited vs. biobank-linked platforms","Per-test: $200–1,000+ · STP: Custom pharma contracts","https://www.blueprintgenetics.com/pharma"],
+  ["Color Health","Color Health (private)","Multi-gene Panels","Hereditary cancer, hereditary heart disease, pharmacogenomics; population screening focus","Yes","Limited","Yes","Yes","Yes","Growing","Hereditary Cancer, Cardio Genetics, Pharmacogenomics","Best-in-class program sponsor dashboard with real-time enrollment, cascade testing, and HCP engagement analytics; population-scale program design; leading pre-symptomatic screening model for employers and health systems; expanding into pharma STP","Not a genomic research platform — primarily screening; limited deep pharma RWE depth; smaller scale than commercial diagnostic labs; limited rare/cardiometabolic TA coverage","Population programs: PMPM or per-test · Employer / pharma: Custom","https://www.color.com/genomics"],
+  ["Myriad Genetics","Myriad Genetics (MYGN)","Multi-gene Panels","Hereditary cancer (myRisk), cardio (myRisk HeartPanel), psychiatric/PGx (GeneSight); large multi-TA menu","Yes","Yes","Yes","Yes","Limited","Established","Hereditary Cancer, Cardio Genetics, Psychiatric / PGx","Largest hereditary cancer STP franchise (myRisk Advantage); cascade testing infrastructure with proband-to-family tracking; mySupport GC services; dedicated pharma reporting tools for sponsored programs","Panel-only (no WGS/WES); limited longitudinal EHR/claims linkage; hereditary cancer-heavy; aging technology infrastructure; limited RWE platform","Per-test: $300–800+ · STP: Custom pharma partnership contracts","https://myriad.com/products-services/pharma-services/"]
 ];
 
 // 15-feature heatmap per company
@@ -907,7 +930,9 @@ const D_HEATMAP = [
   ["N","Y","Y","Y","Y","Y","Y","Y","Y","P","Y","Y","Y","Y","P"], // Ambry/Tempus
   ["Y","Y","Y","P","P","P","P","N","P","N","P","N","Y","Y","P"], // Prevention Genetics
   ["P","N","P","Y","Y","Y","Y","P","Y","P","Y","Y","P","P","N"], // Natera
-  ["N","Y","Y","Y","Y","Y","Y","P","Y","P","Y","P","Y","Y","P"]  // Blueprint/Quest
+  ["N","Y","Y","Y","Y","Y","Y","P","Y","P","Y","P","Y","Y","P"], // Blueprint/Quest
+  ["N","N","Y","Y","P","Y","Y","Y","P","Y","Y","P","P","Y","Y"], // Color Health
+  ["N","N","Y","Y","Y","Y","Y","P","Y","P","Y","P","P","Y","Y"]  // Myriad Genetics
 ];
 
 function dAssayClass(a){
@@ -968,6 +993,31 @@ function dRenderHeatmap(){
 });
 
 // ═══════════════════════════════════════════════════════
+// TAB 3 — PHARMA PARTNER PORTAL DATA
+// ═══════════════════════════════════════════════════════
+// [0]Company [1]RealTimeDashboard [2]EnrollmentMetrics [3]CascadeTesting
+// [4]HCPAnalytics [5]CohortCharacterization [6]LabClinicalValues
+// [7]RecontactTrialFunnel [8]ReimbTracking [9]APIExport [10]Notes
+const PD_DATA = [
+  ["Helix","P","P","N","N","Y","Y","Y","N","P","GenoSphere Explorer provides deep cohort characterization with EHR-linked clinical lab values (avg LDL, HbA1c, BMI, GFR, BP across cohort); Recall-by-Genotype enables full trial recruitment funnel; enrollment tracking and cascade dashboard not yet available as self-serve; partner data delivery via OMOP export"],
+  ["Invitae (Labcorp)","N","P","N","N","N","N","N","N","N","Periodic PDF/Excel reporting via account managers; no self-serve pharma portal; basic test volume tracking available; Labcorp acquisition may add future infrastructure; no cohort characterization or clinical insights"],
+  ["GeneDx","N","P","N","P","P","N","N","N","N","Program performance reports via pharma services team; some HCP-level ordering analytics available on request; limited variant-level cohort summary; no clinical lab value integration; no self-serve portal"],
+  ["Ambry Genetics / Tempus","P","P","N","P","P","P","N","N","Y","Tempus Lens provides pharma partners with cohort characterization and some clinical analytics; Ambry STP reporting primarily manual; Tempus API enables programmatic data access; no cascade tracking; some molecular + clinical co-insights from Tempus multimodal data"],
+  ["Prevention Genetics (Revvity)","N","N","N","N","N","N","N","N","N","Manual reporting only via bespoke contract deliverables; no pharma partner portal or self-serve capability; Revvity enterprise model; no cohort characterization, clinical lab insights, or recontact infrastructure"],
+  ["Natera","P","Y","N","P","P","P","N","P","P","Pharma partner dashboards for Signatera MRD programs; real-time test volume and enrollment metrics; ctDNA level tracking per patient cohort; HCP-level analytics available; reimbursement status tracking for Signatera; limited recontact for germline population studies"],
+  ["Blueprint Genetics (Quest)","N","P","N","P","N","N","N","N","N","Quest Q-Portal handles test ordering and basic status reporting; periodic STP program updates; some HCP-level data via Quest analytics; no cohort characterization or clinical lab value integration; no API for pharma analytics"],
+  ["Color Health","Y","Y","Y","Y","P","P","Y","Y","P","Most advanced program sponsor portal in the space: real-time enrollment dashboard, cascade testing tracking (proband → family member uptake), HCP engagement analytics with geographic heatmaps, consent/recontact management for follow-up, reimbursement status per test; limited deep genomic cohort characterization or EHR-linked clinical lab values"],
+  ["Myriad Genetics","P","Y","Y","Y","P","N","N","P","N","Dedicated pharma reporting tools for myRisk STP programs; cascade testing analytics (proband → family member); HCP ordering patterns and geographic coverage maps; enrollment tracking toward contract goals; partial reimbursement reporting; no deep clinical lab value integration; no recontact for prospective studies"]
+];
+
+function dRenderPortal(){
+  document.getElementById('d-portal-tbody').innerHTML=PD_DATA.map(r=>{
+    const hl=r[0]==='Helix';
+    return`<tr class="${hl?'helix-hm':''}"><td class="td-name" style="min-width:190px;white-space:nowrap">${hl?'<strong>':''}${r[0]}${hl?'</strong>':''}</td>${r.slice(1,10).map(v=>`<td>${hmCell(v)}</td>`).join('')}<td style="text-align:left;padding:7px 12px;font-size:10.5px;color:#444;max-width:300px;white-space:normal;line-height:1.45">${r[10]}</td></tr>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
 // PRICING HELPERS
 // ═══════════════════════════════════════════════════════
 function priceClass(p){
@@ -1012,7 +1062,7 @@ function syncScrollbarWidths() {
 // ═══════════════════════════════════════════════════════
 pRender(); pRenderHeatmap(); pUpdateStats(P_DATA);
 cRender(); cRenderHeatmap(); cRenderScores(); cUpdateStats(C_DATA);
-dRender(); dRenderHeatmap(); dUpdateStats(D_DATA);
+dRender(); dRenderHeatmap(); dUpdateStats(D_DATA); dRenderPortal();
 initTopScrollbars();
 syncScrollbarWidths();
 window.addEventListener('resize', syncScrollbarWidths);
