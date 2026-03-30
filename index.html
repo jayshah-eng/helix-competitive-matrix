@@ -615,6 +615,7 @@
         <th title="Per-test reimbursement and billing status tracking">Reimb. Tracking</th>
         <th title="API or structured data export for pharma data teams">API / Export</th>
         <th style="text-align:left;min-width:260px;padding-left:12px">What's Available</th>
+        <th>Link</th>
       </tr></thead>
       <tbody id="d-portal-tbody"></tbody>
     </table>
@@ -910,7 +911,7 @@ function cRenderScores(){
 // [8]ClinicalData [9]STPBusiness [10]PrimaryTA
 // [11]Differentiator [12]Gap [13]Pricing [14]URL
 const D_DATA = [
-  ["Helix","Helix","Exome+ (WES)","Cardiometabolic, GLP-1, Autoimmune, Rare Disease; growing test menu","Yes","Yes","Yes","Yes","Yes","Established","Cardiometabolic, GLP-1, Autoimmune, Rare Disease","Only STP combining Exome+ WES with linked 13+ yr EHR + claims; world's largest GLP-1 genomic cohort (55K+); OMOP-harmonized RWD delivery; consented recontact for trial recruitment","Smaller tested population vs. commercial labs; WGS not yet offered; limited oncology depth","Custom · Partnership-based","https://www.helix.com/what-we-do/helix-genosphere"],
+  ["Helix","Helix","Exome+ (WES)","Cardiometabolic, GLP-1, Autoimmune, Rare Disease; growing test menu","Yes","Yes","Yes","Yes","Yes","No STP program","Cardiometabolic, GLP-1, Autoimmune, Rare Disease","Only STP combining Exome+ WES with linked 13+ yr EHR + claims; world's largest GLP-1 genomic cohort (55K+); OMOP-harmonized RWD delivery; consented recontact for trial recruitment","Smaller tested population vs. commercial labs; WGS not yet offered; limited oncology depth","Custom · Partnership-based","https://www.helix.com/what-we-do/helix-genosphere"],
   ["Invitae (Labcorp)","Labcorp","Panels + WES","Hereditary cancer, cardio, rare disease, neurology, reproductive; broad multi-TA menu","Yes","Yes","Limited","Yes","Limited","Established","Hereditary Cancer, Cardio, Rare Disease, Neurology","Scale (millions tested); established pharma STP relationships across multiple TAs; broad test menu; Labcorp commercial distribution network","No longitudinal EHR/claims linkage; no RWE platform; Invitae financial restructuring under Labcorp","Per-test: $250–500+ · STP: Custom pharma contracts","https://www.invitae.com/en/providers/sponsored-testing"],
   ["GeneDx","GeneDx (SEMA4)","WGS + WES","Rare disease (pediatric, adult), neurological, cardiogenomics; WGS-first strategy","Yes","Yes","Yes","Yes","Limited","Established","Rare Disease, Neurology, Cardiogenomics","Largest WGS rare disease diagnostic lab in US; AI-powered variant interpretation; deep rare disease phenotypic dataset; strong pharma rare disease STP partnerships","Limited cardiometabolic/GLP-1/autoimmune depth; no linked longitudinal population data; rare disease-focused","Per-test: $500–2,000+ · STP: Custom pharma contracts","https://www.genedx.com/pharma"],
   ["Ambry Genetics / Tempus","Tempus AI","Panels + WES","Hereditary cancer, cardio genetics, rare disease; integrates with Tempus Lens multimodal oncology platform","Yes","Yes","Yes","Yes","Yes","Established","Hereditary Cancer, Oncology, Cardio, Rare Disease","Multimodal integration (Ambry diagnostics + Tempus AI Lens analytics); strong hereditary cancer STP franchise; combined pharma reach across oncology and rare disease","Complex post-acquisition organizational integration; oncology-heavy analytics focus; Ambry cardiogenomics data still maturing","Per-test: $200–800+ · STP: Custom · Tempus enterprise licensing","https://www.ambrygen.com/partners/pharma"],
@@ -946,6 +947,7 @@ function dAssayClass(a){
 function dStpClass(s){
   if(s==='Established')return't-commercial';
   if(s==='Growing')return't-federal';
+  if(s==='No STP program')return't-enterprise';
   return't-network';
 }
 
@@ -997,22 +999,25 @@ function dRenderHeatmap(){
 // ═══════════════════════════════════════════════════════
 // [0]Company [1]RealTimeDashboard [2]EnrollmentMetrics [3]CascadeTesting
 // [4]HCPAnalytics [5]CohortCharacterization [6]LabClinicalValues
-// [7]RecontactTrialFunnel [8]ReimbTracking [9]APIExport [10]Notes
+// [7]RecontactTrialFunnel [8]ReimbTracking [9]APIExport [10]Notes [11]URL
 const PD_DATA = [
-  ["Invitae (Labcorp)","N","P","N","N","N","N","N","N","N","Periodic PDF/Excel reporting via account managers; no self-serve pharma portal; basic test volume tracking available; Labcorp acquisition may add future infrastructure; no cohort characterization or clinical insights"],
-  ["GeneDx","N","P","N","P","P","N","N","N","N","Program performance reports via pharma services team; some HCP-level ordering analytics available on request; limited variant-level cohort summary; no clinical lab value integration; no self-serve portal"],
-  ["Ambry Genetics / Tempus","P","P","N","P","P","P","N","N","Y","Tempus Lens provides pharma partners with cohort characterization and some clinical analytics; Ambry STP reporting primarily manual; Tempus API enables programmatic data access; no cascade tracking; some molecular + clinical co-insights from Tempus multimodal data"],
-  ["Prevention Genetics (Revvity)","N","N","N","N","N","N","N","N","N","Manual reporting only via bespoke contract deliverables; no pharma partner portal or self-serve capability; Revvity enterprise model; no cohort characterization, clinical lab insights, or recontact infrastructure"],
-  ["Natera","P","Y","N","P","P","P","N","P","P","Pharma partner dashboards for Signatera MRD programs; real-time test volume and enrollment metrics; ctDNA level tracking per patient cohort; HCP-level analytics available; reimbursement status tracking for Signatera; limited recontact for germline population studies"],
-  ["Blueprint Genetics (Quest)","N","P","N","P","N","N","N","N","N","Quest Q-Portal handles test ordering and basic status reporting; periodic STP program updates; some HCP-level data via Quest analytics; no cohort characterization or clinical lab value integration; no API for pharma analytics"],
-  ["Color Health","Y","Y","Y","Y","P","P","Y","Y","P","Most advanced program sponsor portal in the space: real-time enrollment dashboard, cascade testing tracking (proband → family member uptake), HCP engagement analytics with geographic heatmaps, consent/recontact management for follow-up, reimbursement status per test; limited deep genomic cohort characterization or EHR-linked clinical lab values"],
-  ["Myriad Genetics","P","Y","Y","Y","P","N","N","P","N","Dedicated pharma reporting tools for myRisk STP programs; cascade testing analytics (proband → family member); HCP ordering patterns and geographic coverage maps; enrollment tracking toward contract goals; partial reimbursement reporting; no deep clinical lab value integration; no recontact for prospective studies"]
+  ["Invitae (Labcorp)","N","P","N","N","N","N","N","N","N","Periodic PDF/Excel reporting via account managers; no self-serve pharma portal; basic test volume tracking available; Labcorp acquisition may add future infrastructure; no cohort characterization or clinical insights","https://www.invitae.com/en/providers/sponsored-testing"],
+  ["GeneDx","N","P","N","P","P","N","N","N","N","Program performance reports via pharma services team; some HCP-level ordering analytics available on request; limited variant-level cohort summary; no clinical lab value integration; no self-serve portal","https://www.genedx.com/pharma"],
+  ["Ambry Genetics / Tempus","P","P","N","P","P","P","N","N","Y","Tempus Lens provides pharma partners with cohort characterization and some clinical analytics; Ambry STP reporting primarily manual; Tempus API enables programmatic data access; no cascade tracking; some molecular + clinical co-insights from Tempus multimodal data","https://www.tempus.com/life-sciences/lens"],
+  ["Prevention Genetics (Revvity)","N","N","N","N","N","N","N","N","N","Manual reporting only via bespoke contract deliverables; no pharma partner portal or self-serve capability; Revvity enterprise model; no cohort characterization, clinical lab insights, or recontact infrastructure","https://www.preventiongenetics.com"],
+  ["Natera","P","Y","N","P","P","P","N","P","P","Pharma partner dashboards for Signatera MRD programs; real-time test volume and enrollment metrics; ctDNA level tracking per patient cohort; HCP-level analytics available; reimbursement status tracking for Signatera; limited recontact for germline population studies","https://www.natera.com/partners/pharma"],
+  ["Blueprint Genetics (Quest)","N","P","N","P","N","N","N","N","N","Quest Q-Portal handles test ordering and basic status reporting; periodic STP program updates; some HCP-level data via Quest analytics; no cohort characterization or clinical lab value integration; no API for pharma analytics","https://www.blueprintgenetics.com/pharma"],
+  ["Color Health","Y","Y","Y","Y","P","P","Y","Y","P","Most advanced program sponsor portal in the space: real-time enrollment dashboard, cascade testing tracking (proband → family member uptake), HCP engagement analytics with geographic heatmaps, consent/recontact management for follow-up, reimbursement status per test; limited deep genomic cohort characterization or EHR-linked clinical lab values","https://www.color.com/enterprise"],
+  ["Myriad Genetics","P","Y","Y","Y","P","N","N","P","N","Dedicated pharma reporting tools for myRisk STP programs; cascade testing analytics (proband → family member); HCP ordering patterns and geographic coverage maps; enrollment tracking toward contract goals; partial reimbursement reporting; no deep clinical lab value integration; no recontact for prospective studies","https://myriad.com/products-services/pharma-services/"]
 ];
 
 function dRenderPortal(){
-  document.getElementById('d-portal-tbody').innerHTML=PD_DATA.map(r=>{
-    const hl=r[0]==='Helix';
-    return`<tr class="${hl?'helix-hm':''}"><td class="td-name" style="min-width:190px;white-space:nowrap">${hl?'<strong>':''}${r[0]}${hl?'</strong>':''}</td>${r.slice(1,10).map(v=>`<td>${hmCell(v)}</td>`).join('')}<td style="text-align:left;padding:7px 12px;font-size:10.5px;color:#444;max-width:300px;white-space:normal;line-height:1.45">${r[10]}</td></tr>`;
+  const sorted=[...PD_DATA].sort((a,b)=>{
+    const score=r=>r.slice(1,10).reduce((s,v)=>s+(v==='Y'?2:v==='P'?1:0),0);
+    return score(b)-score(a);
+  });
+  document.getElementById('d-portal-tbody').innerHTML=sorted.map(r=>{
+    return`<tr><td class="td-name" style="min-width:190px;white-space:nowrap">${r[0]}</td>${r.slice(1,10).map(v=>`<td>${hmCell(v)}</td>`).join('')}<td style="text-align:left;padding:7px 12px;font-size:10.5px;color:#444;max-width:280px;white-space:normal;line-height:1.45">${r[10]}</td><td style="padding:7px 10px;white-space:nowrap"><a href="${r[11]}" target="_blank" class="ref-link">View ↗</a></td></tr>`;
   }).join('');
 }
 
