@@ -253,6 +253,7 @@
     <button class="tab-btn active" onclick="switchTab('platforms',this)">Platform &amp; Data Overview</button>
     <button class="tab-btn" onclick="switchTab('cohort',this)">Cohort Builder &amp; Analysis Tools</button>
     <button class="tab-btn" onclick="switchTab('dx',this)">Diagnostics STP Landscape</button>
+    <button class="tab-btn" onclick="switchTab('clindv',this)">Clinical Development Services</button>
   </div>
 </div>
 
@@ -695,6 +696,146 @@
   </div>
 </div><!-- /tab-dx -->
 
+<!-- ═══════════════════════════════════════════════════
+     TAB 4 — CLINICAL DEVELOPMENT SERVICES
+════════════════════════════════════════════════════ -->
+<div id="tab-clindv" class="tab-pane">
+
+  <div class="stats-row" id="e-stats-row"></div>
+
+  <div class="filter-bar">
+    <label>Search</label>
+    <input type="text" id="e-search" placeholder="Company, TA, capability, keyword…">
+    <label>Service Type</label>
+    <select id="e-svctype">
+      <option value="">All Types</option>
+      <option>Both</option>
+      <option>Prognostic Enrichment</option>
+      <option>Trial Recruitment</option>
+      <option>Biomarker Strategy</option>
+      <option>Platform / CRO</option>
+    </select>
+    <label>Genomic Assets</label>
+    <select id="e-genomics">
+      <option value="">All</option>
+      <option value="Exome+">Exome+ / WES</option>
+      <option value="WGS">WGS</option>
+      <option value="Panel">Panel</option>
+      <option value="cfDNA">cfDNA</option>
+      <option value="None">None / EHR-only</option>
+    </select>
+    <label>Active Recruitment</label>
+    <select id="e-recruit">
+      <option value="">All</option>
+      <option>Yes</option>
+      <option>Limited</option>
+      <option>No</option>
+    </select>
+    <label>Site Network</label>
+    <select id="e-sites">
+      <option value="">All</option>
+      <option>Yes</option>
+      <option>Limited</option>
+      <option>No</option>
+    </select>
+    <span class="count-badge" id="e-count">— companies</span>
+  </div>
+
+  <div class="table-wrap">
+    <table id="e-table">
+      <thead><tr>
+        <th onclick="eSort(0)" data-col="0">Company <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(2)" data-col="2">Service Type <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(3)" data-col="3">Therapeutic Focus <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(4)" data-col="4">Genomic Assets <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(5)" data-col="5">Patient Scale <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(6)" data-col="6">Active Recruitment <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(7)" data-col="7">Prognostic Enrichment <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(8)" data-col="8">RWE Generation <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(9)" data-col="9">Site Network <span class="sort-icon">↕</span></th>
+        <th onclick="eSort(10)" data-col="10">Regulatory Support <span class="sort-icon">↕</span></th>
+        <th>Key Differentiator</th>
+        <th>Notable Gap</th>
+        <th>Pricing</th>
+        <th>Ref</th>
+      </tr></thead>
+      <tbody id="e-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header">Feature Capability Heatmap</div>
+  <div class="section-sub">✓ Full capability &nbsp;·&nbsp; ~ Partial / Limited &nbsp;·&nbsp; – Not available</div>
+  <div class="heatmap-wrap">
+    <table class="heatmap">
+      <thead><tr>
+        <th class="col-name">Company</th>
+        <th title="Genomic-guided prognostic enrichment for trial population selection">Prognostic Enrichment</th>
+        <th title="Biomarker discovery and predictive biomarker ID for inclusion/exclusion criteria">Predictive Biomarker ID</th>
+        <th title="Genomic stratification of patient subgroups">Genomic Stratification</th>
+        <th title="Active patient recruitment / recontact from consented population">Active Recruitment</th>
+        <th title="Clinical trial site identification and activation network">Site Network / Feasibility</th>
+        <th title="Decentralized / remote trial capabilities">Decentralized Trials</th>
+        <th title="EHR-based patient screening and eligibility matching">EHR-based Screening</th>
+        <th title="cfDNA / liquid biopsy for enrollment criteria or monitoring">cfDNA / Liquid Biopsy</th>
+        <th title="Germline / rare variant detection for enrollment">Germline / Rare Variant</th>
+        <th title="Polygenic risk score–based enrichment">PRS / Polygenic</th>
+        <th title="Longitudinal outcomes tracking post-enrollment">Longitudinal Outcomes</th>
+        <th title="RWE generation and regulatory submission support">RWE / Regulatory</th>
+        <th title="Pre-consented population recontact for trial outreach">Recontact / Pre-consented</th>
+        <th title="OMOP or FHIR-standardized data delivery">OMOP / FHIR</th>
+      </tr></thead>
+      <tbody id="e-hm-tbody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header">Key Competitive Insights</div>
+  <div class="insights-grid">
+    <div class="insight-card highlight">
+      <h3>Helix GenoSphere™ — Clinical Dev Advantages</h3>
+      <ul>
+        <li>Only platform combining germline Exome+ WES + 13+ yr EHR/claims + consented recontact — enabling both enrichment and active trial recruitment in one workflow</li>
+        <li>Purpose-built cardiometabolic, GLP-1 (55K+), and autoimmune cohorts reduce enrichment study setup time vs. general platforms</li>
+        <li>OMOP-harmonized output drops directly into pharma clinical development data infrastructure</li>
+        <li>PRS-based prognostic enrichment available across cardiometabolic and polygenic disease indications</li>
+        <li>Pre-symptomatic enrichment: identify and contact at-risk individuals before clinical presentation — not possible with EHR-only platforms</li>
+      </ul>
+    </div>
+    <div class="insight-card">
+      <h3>Where Competitors Lead</h3>
+      <ul>
+        <li><strong>Tempus / Foundation Medicine:</strong> Dominant in oncology — AI-guided trial matching, multimodal data, FDA CDx for enrollment criteria</li>
+        <li><strong>TriNetX:</strong> Best-in-class EHR-based feasibility + site network; fastest N-count for traditional (non-genomic) trial enrollment</li>
+        <li><strong>IQVIA / Parexel:</strong> Global scale CRO execution, broadest claims + EHR RWD, end-to-end trial delivery</li>
+        <li><strong>Natera (Signatera):</strong> Longitudinal cfDNA MRD monitoring — uniquely enables response tracking within oncology trials</li>
+        <li><strong>Science 37:</strong> Leading decentralized trial platform — reaches patients outside traditional site geography</li>
+        <li><strong>ProSciento:</strong> Unmatched deep metabolic phenotyping (clamp, DEXA, FibroScan) for MASH/T2D trials</li>
+      </ul>
+    </div>
+    <div class="insight-card">
+      <h3>Key Capability Gaps Across the Market</h3>
+      <ul>
+        <li>No competitor combines germline genomics + EHR/claims + active recontact for non-oncology indications at commercial scale</li>
+        <li>Prognostic enrichment outside oncology is largely underdeveloped — most platforms EHR-code–based, not genomic</li>
+        <li>PRS-based enrichment (polygenic risk) is almost entirely absent from clinical development tooling</li>
+        <li>cfDNA platforms (Guardant, Natera) have no germline counterpart for cardiometabolic / rare disease enrichment</li>
+        <li>EHR site networks (TriNetX, IQVIA) lack the genomic depth needed for variant-based enrichment criteria</li>
+        <li>Most platforms cannot identify pre-symptomatic patients — a key unmet need for prevention trials</li>
+      </ul>
+    </div>
+    <div class="insight-card">
+      <h3>Pharma Use Case Fit by Service Type</h3>
+      <ul>
+        <li><strong>Oncology biomarker-driven enrichment:</strong> Foundation Medicine, Tempus, Guardant Health, Natera</li>
+        <li><strong>Cardiometabolic / GLP-1 genomic enrichment:</strong> Helix GenoSphere™ — uniquely positioned</li>
+        <li><strong>Rare disease trial recruitment:</strong> Helix (EHR + Exome+), TriNetX, IQVIA (via partner labs)</li>
+        <li><strong>Traditional site-based recruitment:</strong> TriNetX, IQVIA, Parexel, Medidata (site network scale)</li>
+        <li><strong>Decentralized / virtual trials:</strong> Science 37, Medidata, IQVIA (DCT arm)</li>
+        <li><strong>Deep metabolic disease phenotyping:</strong> ProSciento (MASH, T2D) — no genomic equivalent elsewhere</li>
+      </ul>
+    </div>
+  </div>
+</div><!-- /tab-clindv -->
+
 <div class="footer">HELIX GENOSPHERE™ · COMPETITIVE INTELLIGENCE · MARCH 2026</div>
 
 <script>
@@ -1043,6 +1184,109 @@ function dRenderPortal(){
 }
 
 // ═══════════════════════════════════════════════════════
+// TAB 4 — CLINICAL DEVELOPMENT SERVICES DATA
+// ═══════════════════════════════════════════════════════
+// [0]Company [1]Org [2]ServiceType [3]TAFocus [4]GenomicAssets
+// [5]PatientScale [6]ActiveRecruitment [7]PrognosticEnrichment
+// [8]RWEGen [9]SiteNetwork [10]RegulatorySupport
+// [11]KeyDifferentiator [12]NotableGap [13]Pricing [14]Ref
+const E_DATA = [
+  ["Helix GenoSphere™","Helix","Both","Cardiometabolic, GLP-1, Rare Disease, Autoimmune","Exome+ (WES)","&gt;600K Exome records; 12.9M EHR network","Yes","Yes","Yes","No","Limited","Only platform combining germline Exome+ WES + 13+ yr EHR/claims + consented recontact for non-oncology prognostic enrichment and active trial recruitment; OMOP-harmonized; world's largest GLP-1 clinicogenomic cohort (55K+); PRS enrichment available","Not a CRO — does not run trials; no clinical site network; limited oncology depth; WGS not yet offered","Custom · Partnership-based","https://www.helix.com/life-sciences"],
+  ["Tempus AI","Tempus AI","Both","Oncology","WGS + Panel + RNA","7M+ records; 1M+ molecularly profiled","Limited","Yes","Yes","Yes","Yes","Largest clinical molecular oncology database; AI-driven TIME trial network for automated patient stratification + site matching; multimodal data (imaging + molecular + EHR); Lens AI for enrollment feasibility; Algo for site activation","Oncology-only; no rare/cardiometabolic depth; limited germline recontact; proprietary data ecosystem","Not disclosed · Est. $200K–1M+/yr enterprise","https://www.tempus.com/life-sciences"],
+  ["Foundation Medicine (Roche)","Roche / Foundation Medicine","Prognostic Enrichment","Oncology (solid tumors, heme)","Comprehensive Genomic Panel","&gt;500K CGP profiles performed","No","Yes","Yes","No","Yes","Gold-standard CDx for biomarker-driven oncology enrollment; multiple FDA-approved companion diagnostics; Foundation Insight RWE platform; Roche ecosystem integration enables biomarker–drug co-development","Oncology-only; no patient recontact; panel-only (no WGS); limited EHR/claims depth; Roche ownership creates conflict for non-Roche sponsors","Not disclosed · STP/research access via Roche partnership","https://www.foundationmedicine.com/partnering"],
+  ["Guardant Health","Guardant Health (GH)","Prognostic Enrichment","Oncology (solid tumors, CRC, lung, breast)","cfDNA / Liquid Biopsy","&gt;500K tests performed annually","No","Yes","Limited","No","Yes","Minimally invasive ctDNA-based enrollment criteria (Guardant360 CDx); longitudinal monitoring during trials without repeat biopsies; early cancer detection for pre-symptomatic enrollment (Shield); multiple FDA-approved CDx","Oncology-only; no germline data; no patient recontact or active recruitment; limited EHR/claims depth","Not disclosed · Pharma: Custom research use agreement","https://www.guardanthealth.com/oncology/biopharma"],
+  ["Natera (Signatera)","Natera (NTRA)","Prognostic Enrichment","Oncology (MRD), Reproductive Health","cfDNA (tumor-informed)","Millions of tests (Signatera + NIPT + Prospera)","No","Yes","Limited","No","Yes","Tumor-informed MRD monitoring enables longitudinal treatment response tracking during oncology trials; strong pharma partnership model; FDA breakthrough device designation for Signatera; high clinical validity for residual disease enrichment","Oncology MRD + reproductive only; no germline population cohort for non-oncology enrichment; no active patient recontact outside active care","Not disclosed · Signatera pharma: Custom research agreements","https://www.natera.com/partners/pharma"],
+  ["TriNetX","TriNetX","Trial Recruitment","Broad — all TAs","None (EHR / codes only)","250M+ patients; 60+ global health systems","Yes","Limited","Yes","Yes","Yes","Largest real-time EHR-based trial recruitment network; instant feasibility queries across 60+ health systems globally; automated site activation; strongest for ICD/labs-based (non-genomic) trial enrichment; free for sponsor protocol feasibility","No genomics — enrichment limited to ICD codes, labs, and RxNorm prescriptions; no germline or polygenic enrichment; no consented recontact population","Free (sponsor feasibility) · Site licensing model","https://trinetx.com/solutions/clinical-research"],
+  ["IQVIA","IQVIA","Platform / CRO","Broad — all TAs","Limited (via partner labs)","245M+ patients globally (EHR + claims + specialty)","Yes","Limited","Yes","Yes","Yes","Largest global CRO + RWD platform; end-to-end trial execution from protocol through submission; broadest commercial claims + EHR dataset; OMOP-harmonized global data; strong regulatory submission experience; DCT capabilities","Limited genomic depth — genomics via external lab partnerships only; no proprietary genomic biobank; enrichment is claims/ICD-based, not genomic","Not disclosed · Full-service CRO + platform SaaS","https://www.iqvia.com/solutions/research-development"],
+  ["Parexel","Parexel International","Platform / CRO","Broad (Oncology, CNS, Cardiometabolic, Rare Disease)","Limited (via partner labs)","100+ countries; FSP + hybrid CRO network","Yes","Limited","Yes","Yes","Yes","Biomarker strategy consulting + Parexel Informatics for site selection and patient ID; global trial execution; RTSM + ePRO; deep rare disease and oncology enrichment expertise; adaptive trial design","No proprietary genomic biobank — genomics via partner labs only; enrichment is ICD/labs-based; not a data platform","Not disclosed · Full-service CRO fee-for-service","https://www.parexel.com/solutions/clinical-research"],
+  ["Precision for Medicine","Precision for Medicine (ICON subsidiary)","Biomarker Strategy","Oncology, Rare Disease, Cardiometabolic","WES + Panel (in-house lab)","Specialist CRO — limited proprietary scale","Limited","Yes","Limited","Yes","Limited","Specialized biomarker-driven CRO with in-house central lab; deep expertise in genomic stratification for enrollment criteria; adaptive trial design + umbrella/basket trial architecture; close pharma collaboration model","No large proprietary patient database; no longitudinal cohort for pre-trial enrichment; limited RWE/regulatory depth; smaller scale than full-service CROs","Not disclosed · Fee-for-service per project","https://www.precisionformedicine.com/services/biomarker-services"],
+  ["Science 37","Science 37 (SNCE)","Trial Recruitment","Broad — all TAs (consumer health, CNS, derm, metabolic)","None","50K+ patients enrolled via DCT; proprietary patient panel","Yes","No","Limited","Yes","Yes","Pioneer in fully decentralized clinical trials (DCT); proprietary NORA patient panel for remote recruitment; telemedicine + home nursing network; enables access to geographically dispersed patients; 40% faster enrollment vs. traditional sites","No genomics — no prognostic enrichment capability; limited for biomarker-driven enrollment; not suited for complex genomic inclusion/exclusion criteria","Not disclosed · Per-patient or full-service DCT contract","https://www.science37.com"],
+  ["ProSciento","ProSciento (private)","Trial Recruitment","Cardiometabolic (T2D, MASH, obesity, CVD)","Limited (clinical phenotyping)","Specialty CRO — multiple cardiometabolic sites","Yes","Limited","Limited","Yes","Yes","Only specialist CRO focused exclusively on metabolic disease; deepest cardiometabolic phenotyping (insulin clamps, DEXA, FibroScan, liver biopsy); purpose-built MASH and T2D sites with in-house metabolic research expertise; uniquely positioned for MASH trial enrichment","No genomic biobank — enrichment via clinical metabolic data only (not genomic); narrow TA focus; limited scale","Not disclosed · Full-service CRO fee-for-service","https://www.prosciento.com"],
+  ["Medidata (Dassault)","Dassault Systèmes","Platform / CRO","Broad — all TAs","None","Used in 25,000+ trials; 7M+ patients enrolled","Limited","No","Limited","Yes","Yes","AI Signal patient recruitment module; Medidata Rave CTMS most widely deployed EDC; connected to RWD sources for site feasibility; strong RBQM and ePRO; DCT module; used by 19 of top 20 pharma companies","No genomics; no prognostic enrichment; patient recruitment add-on limited relative to dedicated networks; primarily CTMS/EDC platform, not a biobank","Not disclosed · Enterprise SaaS + per-module licensing","https://www.medidata.com/solutions/clinical-development"],
+  ["Veracyte","Veracyte (VCYT)","Prognostic Enrichment","Oncology (thyroid, lung, bladder, prostate)","RNA expression + genomic (Afirma, Decipher, Prosigna)","&gt;1M tests performed","No","Yes","Limited","No","Yes","Market-leading genomic classifiers for histologically ambiguous cancers (Afirma thyroid, Decipher prostate, Prosigna breast); enables precision enrollment based on genomic cancer subtype not visible on histology alone; multiple FDA clearances; strong academic + community oncology adoption","Narrow oncology TA focus — thyroid/lung/bladder/prostate only; no patient recontact; limited EHR/claims linkage; not a CRO or full trial services platform","Not disclosed · Pharma partnerships for research use","https://veracyte.com/biopharma"]
+];
+
+// 14-feature heatmap per company
+// [Prognostic Enrichment, Predictive Biomarker ID, Genomic Stratification, Active Recruitment,
+//  Site Network, Decentralized, EHR Screening, cfDNA, Germline/Rare, PRS/Polygenic,
+//  Longitudinal Outcomes, RWE/Regulatory, Recontact/Pre-consented, OMOP/FHIR]
+const E_HEATMAP = [
+  ["Y","Y","Y","Y","N","N","Y","N","Y","Y","Y","Y","Y","Y"], // Helix
+  ["Y","Y","Y","P","Y","N","Y","N","N","N","Y","Y","N","N"], // Tempus
+  ["Y","Y","Y","N","N","N","N","N","N","N","P","Y","N","N"], // Foundation Medicine
+  ["Y","Y","P","N","N","N","N","Y","N","N","Y","Y","N","N"], // Guardant
+  ["Y","Y","P","N","N","N","N","Y","N","N","Y","Y","N","N"], // Natera
+  ["N","N","P","Y","Y","N","Y","N","N","N","Y","Y","N","P"], // TriNetX
+  ["P","P","P","Y","Y","Y","Y","N","N","N","Y","Y","N","Y"], // IQVIA
+  ["P","P","P","Y","Y","Y","P","N","N","N","P","Y","N","N"], // Parexel
+  ["Y","Y","Y","P","Y","N","N","N","P","N","P","P","N","N"], // Precision for Med
+  ["N","N","N","Y","Y","Y","N","N","N","N","P","P","N","N"], // Science 37
+  ["P","P","P","Y","Y","N","Y","N","N","N","Y","P","N","N"], // ProSciento
+  ["N","N","N","P","Y","Y","P","N","N","N","N","P","N","N"], // Medidata
+  ["Y","Y","Y","N","N","N","N","N","N","N","P","Y","N","N"]  // Veracyte
+];
+
+function eSvcClass(s){return{'Both':'t-commercial','Prognostic Enrichment':'t-health','Trial Recruitment':'t-network','Biomarker Strategy':'t-consortium','Platform / CRO':'t-enterprise'}[s]||'t-network';}
+function eGeoClass(g){if(g.includes('Exome+'))return'g-exomeplus';if(g.includes('WGS'))return'g-wgs';if(g.includes('WES'))return'g-wes';if(g.includes('cfDNA'))return'g-panel';if(g.includes('Panel')||g.includes('RNA'))return'g-panel';return'g-none';}
+
+let eSortCol=-1,eSortAsc=true;
+function eSort(col){
+  if(eSortCol===col)eSortAsc=!eSortAsc;else{eSortCol=col;eSortAsc=true;}
+  document.querySelectorAll('#e-table thead th').forEach(th=>{const m=parseInt(th.dataset.col)===col;th.classList.toggle('sorted',m);const ic=th.querySelector('.sort-icon');if(ic)ic.textContent=m?(eSortAsc?'↑':'↓'):'↕';});
+  eRender();
+}
+function eFilter(){
+  const q=document.getElementById('e-search').value.trim().toLowerCase();
+  const fs=document.getElementById('e-svctype').value;
+  const fg=document.getElementById('e-genomics').value;
+  const fr=document.getElementById('e-recruit').value;
+  const fsi=document.getElementById('e-sites').value;
+  return E_DATA.filter(r=>{
+    if(q&&!r.slice(0,12).join(' ').toLowerCase().includes(q))return false;
+    if(fs&&r[2]!==fs)return false;
+    if(fg){const g=r[4];
+      if(fg==='Exome+'&&!g.includes('Exome+')&&!g.includes('WES'))return false;
+      if(fg==='WGS'&&!g.includes('WGS'))return false;
+      if(fg==='Panel'&&!g.includes('Panel')&&!g.includes('RNA'))return false;
+      if(fg==='cfDNA'&&!g.includes('cfDNA'))return false;
+      if(fg==='None'&&!g.includes('None')&&!g.includes('EHR'))return false;
+    }
+    if(fr&&r[6]!==fr)return false;
+    if(fsi&&r[9]!==fsi)return false;
+    return true;
+  });
+}
+function eRender(){
+  let rows=eFilter();
+  if(eSortCol>=0)rows=[...rows].sort((a,b)=>eSortAsc?a[eSortCol].localeCompare(b[eSortCol]):b[eSortCol].localeCompare(a[eSortCol]));
+  document.getElementById('e-tbody').innerHTML=rows.map(r=>{
+    const hl=r[0].startsWith('Helix');
+    return`<tr class="${hl?'helix-row':''}"><td><div class="name-primary">${r[0]}${hl?'<span class="star">★</span>':''}</div><div class="name-sub">${r[1]}</div></td><td><span class="badge ${eSvcClass(r[2])}">${r[2]}</span></td><td style="font-size:11px;max-width:160px">${r[3]}</td><td><span class="chip ${eGeoClass(r[4])}">${r[4]}</span></td><td style="font-size:11.5px">${r[5]}</td><td class="${ynClass(r[6])}">${r[6]}</td><td class="${ynClass(r[7])}">${r[7]}</td><td class="${ynClass(r[8])}">${r[8]}</td><td class="${ynClass(r[9])}">${r[9]}</td><td class="${ynClass(r[10])}">${r[10]}</td><td class="text-cell">${r[11]}</td><td class="muted-cell">${r[12]}</td><td class="${priceClass(r[13])}">${priceFormat(r[13])}</td><td><a href="${r[14]}" target="_blank" class="ref-link">View ↗</a></td></tr>`;
+  }).join('');
+  document.getElementById('e-count').textContent=`${rows.length} compan${rows.length!==1?'ies':'y'}`;
+  eUpdateStats(rows);
+  syncScrollbarWidths();
+}
+function eUpdateStats(rows){
+  const total=rows.length,
+    enrich=rows.filter(r=>r[7]==='Yes').length,
+    recruit=rows.filter(r=>r[6]==='Yes').length,
+    sites=rows.filter(r=>r[9]==='Yes').length,
+    rwe=rows.filter(r=>r[8]==='Yes').length;
+  document.getElementById('e-stats-row').innerHTML=`<div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">Companies Tracked</div></div><div class="stat-card green"><div class="stat-num">${enrich}</div><div class="stat-label">Prognostic Enrichment</div></div><div class="stat-card amber"><div class="stat-num">${recruit}</div><div class="stat-label">Active Recruitment</div></div><div class="stat-card"><div class="stat-num">${sites}</div><div class="stat-label">Site Network</div></div><div class="stat-card red"><div class="stat-num">${rwe}</div><div class="stat-label">RWE Generation</div></div>`;
+}
+function eRenderHeatmap(){
+  document.getElementById('e-hm-tbody').innerHTML=E_DATA.map((r,i)=>{
+    const hl=r[0].startsWith('Helix');
+    return`<tr class="${hl?'helix-hm':''}"><td class="td-name">${hl?'<strong>':''}${r[0]}${hl?'</strong>':''}</td>${E_HEATMAP[i].map(v=>`<td>${hmCell(v)}</td>`).join('')}</tr>`;
+  }).join('');
+}
+['e-search','e-svctype','e-genomics','e-recruit','e-sites'].forEach(id=>{
+  const el=document.getElementById(id);
+  el.addEventListener('input',eRender);el.addEventListener('change',eRender);
+});
+
+// ═══════════════════════════════════════════════════════
 // PRICING HELPERS
 // ═══════════════════════════════════════════════════════
 function priceClass(p){
@@ -1088,6 +1332,7 @@ function syncScrollbarWidths() {
 pRender(); pRenderHeatmap(); pUpdateStats(P_DATA);
 cRender(); cRenderHeatmap(); cRenderScores(); cUpdateStats(C_DATA);
 dRender(); dRenderHeatmap(); dUpdateStats(D_DATA); dRenderPortal();
+eRender(); eRenderHeatmap(); eUpdateStats(E_DATA);
 initTopScrollbars();
 syncScrollbarWidths();
 window.addEventListener('resize', syncScrollbarWidths);
